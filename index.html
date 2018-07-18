@@ -7,16 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MicIndGenerator</title>
     <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/skeleton.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <script src="vue.js"></script>
-
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css.map">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
 
 
 </head>
@@ -25,7 +23,7 @@
     <div id="app">
         <div class="container">
             <div class="">
-                <div class="container u-full-width">
+                <div class=" u-full-width ">
                     <h1>Gerador de Tabelas {{title}}</h1>
                     <h3>Para Microfone, Indicadores e Som</h3>
                 </div>
@@ -33,12 +31,12 @@
 
                 <div class="row">
                     <!-- Dias de Reunioes-->
-                    <div class="container six columns">
+                    <div class=" six columns">
                         <h4>Dias de Reunião</h4>
                         <div class="u-full-width">
                             <div class="row">
                                 <div v-for="n in ['S','T','Q','Q','S','S','D']">
-                                    <button class="one column ">{{n}}</button>
+                                    <button class="one column">{{n}}</button>
                                 </div>
 
                             </div>
@@ -49,10 +47,10 @@
 
 
                     <!-- Data  de reuniao-->
-                    <div class="container six columns">
+                    <div class=" six columns">
                         <h4>Data Inicial</h4>
-                        <input type="date" placeholder="Data Inicial" click="picker.show();">
-                        <input type="text" id="datepicker">
+                        <input type="date" placeholder="Data Inicial">
+                        <input type="text" id="datepicker-skeleton" class="u-cf">
 
                     </div>
                 </div>
@@ -60,27 +58,45 @@
                 <hr>
                 <!-- Tabela de Irmãos e Funções-->
                 <table class="u-full-width">
-
+                    <caption>
+                        <h4>Irmãos</h4>
+                    </caption>
                     <!--Funções-->
                     <tr>
                         <td></td>
                         <th v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']">{{n}}</th>
-                        <!--Input para Funções-->
+
+                        <!--Input para Funções
                         <td>
                             <input type="text" placeholder="Função">
                         </td>
+                    -->
                     </tr>
 
                     <!--Irmãos-->
                     <tr v-for="m in ['Arnaldo','Silvio','Reginaldo']">
 
-                        <th>{{m}}</th>
+                        <th>{{m}}
+                            <!--
+                            <button class="u-pull-right">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            -->
+
+                            <i class="fas fa-trash-alt u-pull-right"></i>
+
+                        </th>
                         <!--loop nas funçoes-->
                         <td v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']">
+                            <!--
                             <label class="example-send-yourself-copy">
                                 <input type="checkbox">
                                 <span class="label-body"></span>
                             </label>
+                            -->
+                            <button>
+                                <i class="fas fa-check"></i>
+                            </button>
                         </td>
                         <td></td>
 
@@ -90,7 +106,7 @@
                     <tr>
                         <!--Input para Irmãos-->
                         <td>
-                            <input type="text" placeholder="Irmão">
+                            <input type="text" placeholder="Adiconar Irmão">
                         </td>
                         <td v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']"></td>
                         <td></td>
@@ -99,24 +115,50 @@
 
                 </table>
 
-
+                <hr>
+                <!--Botão de Gerar pdf-->
                 <div class="row">
-                    <div class="six columns">
-                        <label for="input1">Adicionar Irmão</label>
-                        <input class="u-full-width" type="text" placeholder="Nome do irmão" id="input1">
-                        <input for="input1  four columns" type="button" value="Adicionar">
-                    </div>
+
+                    <button class=" u-full-width"> GERAR
+                        <i class="fas fa-cogs"></i>
+                    </button>
+
                 </div>
+            </div>
+
+            <!--Footer-->
+            <hr>
+            <div class="row ">
+                Made with
+                <i class="fas fa-heart"></i> by Arnaldo Assis Ferreira
+                <br> Tools:
+                <br>
+                <ul>
+                    <li>VueJs</li>
+                    <li>Skeleton</li>
+                    <li>PickADay</li>
+                </ul>
             </div>
         </div>
     </div>
+    </div>
+    <!--
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js.map"></script>
+    -->
     <script>
 
-        var picker = new Pikaday({ field: document.getElementById('datepicker') });
-        picker.show();
+        //var picker = new Pikaday({ field: document.getElementById('datepicker') });
+        //picker.show();
+        var pickerSkeleton = new Pikaday({
+            field: document.getElementById('datepicker-skeleton'),
+            firstDay: 1,
+            minDate: new Date(2010, 0, 1),
+            maxDate: new Date(2020, 12, 31),
+            yearRange: [2010, 2020],
+            theme: 'skeleton-theme'
+        });
 
         new Vue({
             el: '#app',
@@ -125,6 +167,7 @@
             }
         })
     </script>
+    <!--
     <div class="pika-single is-bound is-hidden" style="">
         <div class="pika-lendar">
             <div class="pika-title">
@@ -310,6 +353,7 @@
             </table>
         </div>
     </div>
+-->
 </body>
 
 </html>
