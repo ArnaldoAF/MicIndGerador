@@ -20,7 +20,11 @@
 </head>
 
 <body>
+        <div id="app1"><div id="app2">
+                <input type="text" id="datepicker-skeleton" class="u-cf">
+        </div></div>
     <div id="app">
+            
         <div class="container">
             <div class="">
                 <div class=" u-full-width ">
@@ -49,71 +53,76 @@
                     <!-- Data  de reuniao-->
                     <div class=" six columns">
                         <h4>Data Inicial</h4>
+                        <!--
                         <input type="date" placeholder="Data Inicial">
+                        
                         <input type="text" id="datepicker-skeleton" class="u-cf">
+                    -->
 
                     </div>
                 </div>
 
                 <hr>
                 <!-- Tabela de Irmãos e Funções-->
-                <table class="u-full-width">
-                    <caption>
-                        <h4>Irmãos</h4>
-                    </caption>
-                    <!--Funções-->
-                    <tr>
-                        <td></td>
-                        <th v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']">{{n}}</th>
+                <div style="overflow: auto; overflow-y: hidden">
+                    <table class="u-full-width">
+                        <caption>
+                            <h4>Irmãos</h4>
+                        </caption>
+                        <!--Funções-->
+                        <tr>
+                            <td></td>
+                            <th v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']">{{n}}</th>
 
-                        <!--Input para Funções
+                            <!--Input para Funções
                         <td>
                             <input type="text" placeholder="Função">
                         </td>
                     -->
-                    </tr>
+                        </tr>
 
-                    <!--Irmãos-->
-                    <tr v-for="m in ['Arnaldo','Silvio','Reginaldo']">
+                        <!--Irmãos-->
+                        <tr v-for="m in ['Arnaldo','Silvio','Reginaldo']">
 
-                        <th>{{m}}
-                            <!--
+                            <th>{{m}}
+                                <!--
                             <button class="u-pull-right">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                             -->
 
-                            <i class="fas fa-trash-alt u-pull-right"></i>
+                                <i class="fas fa-trash-alt u-pull-right"></i>
 
-                        </th>
-                        <!--loop nas funçoes-->
-                        <td v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']">
-                            <!--
+                            </th>
+                            <!--loop nas funçoes-->
+                            <td v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']">
+                                <!--
                             <label class="example-send-yourself-copy">
                                 <input type="checkbox">
                                 <span class="label-body"></span>
                             </label>
                             -->
-                            <button>
-                                <i class="fas fa-check"></i>
-                            </button>
-                        </td>
-                        <td></td>
+                                <button>
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            </td>
+                            <td></td>
 
 
-                    </tr>
+                        </tr>
 
-                    <tr>
-                        <!--Input para Irmãos-->
-                        <td>
-                            <input type="text" placeholder="Adiconar Irmão">
-                        </td>
-                        <td v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']"></td>
-                        <td></td>
-                    </tr>
+                        <tr>
+                            <!--Input para Irmãos-->
+                            <td>
+                                <input type="text" placeholder="Adiconar Irmão">
+                            </td>
+                            <td v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']"></td>
+                            <td></td>
+                        </tr>
 
 
-                </table>
+                    </table>
+                </div>
 
                 <hr>
                 <!--Botão de Gerar pdf-->
@@ -140,30 +149,45 @@
                 </ul>
             </div>
         </div>
+        
     </div>
-    </div>
-    <!--
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js.map"></script>
-    -->
-    <script>
+    
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.4.0/pikaday.min.js'></script>
+    <script src="js/datepicker.js"></script>
 
-        //var picker = new Pikaday({ field: document.getElementById('datepicker') });
-        //picker.show();
-        var pickerSkeleton = new Pikaday({
-            field: document.getElementById('datepicker-skeleton'),
-            firstDay: 1,
-            minDate: new Date(2010, 0, 1),
-            maxDate: new Date(2020, 12, 31),
-            yearRange: [2010, 2020],
-            theme: 'skeleton-theme'
-        });
+    <script>
 
         new Vue({
             el: '#app',
             data: {
                 title: 'Hello World!'
+            },
+            created: function() {
+                var pickerSkeleton = new Pikaday({
+                    field: document.getElementById('datepicker-skeleton'),
+                    firstDay: 1,
+                    minDate: new Date(2010, 0, 1),
+                    maxDate: new Date(2020, 12, 31),
+                    yearRange: [2010, 2020],
+                    theme: 'skeleton-theme'
+                });
+            }
+        });
+        new Vue({
+            el: '#app2',
+            data: {
+                title: 'Hello World!'
+            },
+            created: function() {
+                var pickerSkeleton = new Pikaday({
+                    field: document.getElementById('datepicker-skeleton'),
+                    firstDay: 1,
+                    minDate: new Date(2010, 0, 1),
+                    maxDate: new Date(2020, 12, 31),
+                    yearRange: [2010, 2020],
+                    theme: 'skeleton-theme'
+                });
             }
         })
     </script>
