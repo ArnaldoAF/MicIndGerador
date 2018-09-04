@@ -21,7 +21,9 @@
 
 <body>
         <div id="app1"><div id="app2">
+            <!--
                 <input type="text" id="datepicker-skeleton" class="u-cf">
+        -->
         </div></div>
     <div id="app">
             
@@ -55,9 +57,9 @@
                         <h4>Data Inicial</h4>
                         <!--
                         <input type="date" placeholder="Data Inicial">
-                        
+                        -->
                         <input type="text" id="datepicker-skeleton" class="u-cf">
-                    -->
+                    
 
                     </div>
                 </div>
@@ -163,7 +165,7 @@
             data: {
                 title: 'Hello World!'
             },
-            created: function() {
+            mounted: function() {
                 var pickerSkeleton = new Pikaday({
                     field: document.getElementById('datepicker-skeleton'),
                     firstDay: 1,
@@ -179,7 +181,7 @@
             data: {
                 title: 'Hello World!'
             },
-            created: function() {
+            mounted: function() {
                 var pickerSkeleton = new Pikaday({
                     field: document.getElementById('datepicker-skeleton'),
                     firstDay: 1,
