@@ -41,8 +41,10 @@
                         <h4>Dias de Reunião</h4>
                         <div class="u-full-width">
                             <div class="row">
-                                <div v-for="n in ['S','T','Q','Q','S','S','D']">
-                                    <button class="one column">{{n}}</button>
+                                <div v-for="n in diasSemana"
+                                >
+                                    <button :class=" [n.ativo ? 'button-primary' : 'button', 'one column' ]" v-on:click="n.ativo=!n.ativo" >{{n.day}}</button>
+
                                 </div>
 
                             </div>
@@ -130,7 +132,7 @@
                 <!--Botão de Gerar pdf-->
                 <div class="row">
 
-                    <button class=" u-full-width"> GERAR
+                    <button class=" u-full-width "> GERAR
                         <i class="fas fa-cogs"></i>
                     </button>
 
@@ -163,7 +165,37 @@
         new Vue({
             el: '#app',
             data: {
-                title: 'Hello World!'
+                title: 'Hello World!',
+                diasSemana:  [
+                                 {
+                                    day:'S',
+                                    ativo:true
+                                },
+                                 {
+                                    day: 'T',
+                                     ativo:false
+                                    },
+                                 {
+                                    day: 'Q',
+                                     ativo:false
+                                    },
+                                 {
+                                     day:'Q',
+                                     ativo:false
+                                    },
+                                 {
+                                     day:'S',
+                                     ativo:false
+                                    },
+                                 {
+                                     day:'S',
+                                     ativo:false
+                                    },
+                                 {
+                                     day:'D',
+                                     ativo:false
+                                    }
+                                 ]
             },
             mounted: function() {
                 var pickerSkeleton = new Pikaday({
