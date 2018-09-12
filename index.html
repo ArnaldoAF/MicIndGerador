@@ -20,11 +20,7 @@
 </head>
 
 <body>
-        <div id="app1"><div id="app2">
-            <!--
-                <input type="text" id="datepicker-skeleton" class="u-cf">
-        -->
-        </div></div>
+
     <div id="app">
             
         <div class="container">
@@ -35,7 +31,7 @@
                 </div>
                 <hr>
 
-                <div class="row">  
+                <div class="row">
                     <!-- Dias de Reunioes-->
                     <div class=" six columns">
                         <h4>Dias de Reunião</h4>
@@ -60,7 +56,9 @@
                         <!--
                         <input type="date" placeholder="Data Inicial">
                         -->
-                        <input type="text" id="datepicker-skeleton" class="u-cf">
+                        <input type="text" id="datepicker-skeleton" class="u-cf" >
+                        
+                        <h3 >{{dataAtual}}</h3>
                     
 
                     </div>
@@ -195,10 +193,12 @@
                                      day:'D',
                                      ativo:false
                                     }
-                                 ]
+                                 ],
+                pickerSkeleton: null,
+                dataAtual:0
             },
             mounted: function() {
-                var pickerSkeleton = new Pikaday({
+                this.pickerSkeleton = new Pikaday({
                     field: document.getElementById('datepicker-skeleton'),
                     firstDay: 1,
                     minDate: new Date(2010, 0, 1),
@@ -206,24 +206,14 @@
                     yearRange: [2010, 2020],
                     theme: 'skeleton-theme'
                 });
+            },
+            watch: {
+                pickerSkeleton: function(val, oldVal){
+                    this.dataAtual += 1;
+                }
             }
         });
-        new Vue({
-            el: '#app2',
-            data: {
-                title: 'Hello World!'
-            },
-            mounted: function() {
-                var pickerSkeleton = new Pikaday({
-                    field: document.getElementById('datepicker-skeleton'),
-                    firstDay: 1,
-                    minDate: new Date(2010, 0, 1),
-                    maxDate: new Date(2020, 12, 31),
-                    yearRange: [2010, 2020],
-                    theme: 'skeleton-theme'
-                });
-            }
-        })
+       
     </script>
     <!--
     <div class="pika-single is-bound is-hidden" style="">
