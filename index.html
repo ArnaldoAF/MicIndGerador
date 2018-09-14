@@ -56,9 +56,16 @@
                         <!--
                         <input type="date" placeholder="Data Inicial">
                         -->
-                        <input type="text" id="datepicker-skeleton" class="u-cf" >
+                        <input 
+                            type="text" 
+                            id="datepicker-skeleton" 
+                            class="u-cf"
+                            
+                            @change="dataAtual=pickerSkeleton.getDate()"
+                        >
                         
-                        <h3 >{{dataAtual}}</h3>
+                        <h3 @click="dataAtual++">{{dataAtual}}</h3>
+                        
                     
 
                     </div>
@@ -208,9 +215,7 @@
                 });
             },
             watch: {
-                pickerSkeleton: function(val, oldVal){
-                    this.dataAtual += 1;
-                }
+
             }
         });
        
@@ -401,7 +406,7 @@
             </table>
         </div>
     </div>
--->
+--> -->
 </body>
 
 </html>
