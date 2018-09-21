@@ -86,35 +86,19 @@
                         <tr>
                             <td></td>
                             <th v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']">{{n}}</th>
+                            <td></td>
 
-                            <!--Input para Funções
-                        <td>
-                            <input type="text" placeholder="Função">
-                        </td>
-                    -->
                         </tr>
 
                         <!--Irmãos-->
-                        <tr v-for="m in ['Arnaldo','Silvio','Reginaldo']">
+                        <tr v-for="(irmao,x) in listaIrmaos">
 
-                            <th>{{m}}
-                                <!--
-                            <button class="u-pull-right">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                            -->
-
-                                <i class="fas fa-trash-alt u-pull-right"></i>
-
+                            <th>{{irmao}} 
+                                <i class="fas fa-trash-alt u-pull-right" @click="listaIrmaos.splice(x,1)"></i>
                             </th>
                             <!--loop nas funçoes-->
                             <td v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']">
-                                <!--
-                            <label class="example-send-yourself-copy">
-                                <input type="checkbox">
-                                <span class="label-body"></span>
-                            </label>
-                            -->
+
                                 <button>
                                     <i class="fas fa-check"></i>
                                 </button>
@@ -127,8 +111,9 @@
                         <tr>
                             <!--Input para Irmãos-->
                             <td>
-                                <input type="text" placeholder="Adiconar Irmão">
+                                <input type="text" placeholder="Adiconar Irmão" v-model="inputIrmao" @keyup.enter="listaIrmaos.push(inputIrmao);inputIrmao=null" >
                             </td>
+                            
                             <td v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']"></td>
                             <td></td>
                         </tr>
@@ -208,7 +193,9 @@
                                  ],
                 pickerSkeleton: null,
                 dataAtual:moment().format('LTS'),
-                proximaSegunda:moment().isoWeekday(3)
+                proximaSegunda:moment().isoWeekday(3),
+                listaIrmaos:['Arnaldo','Silvio','Reginaldo'],
+                inputIrmao:null
             },
             mounted: function() {
                 this.pickerSkeleton = new Pikaday({
