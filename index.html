@@ -85,7 +85,7 @@
                         <!--Funções-->
                         <tr>
                             <td></td>
-                            <th v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']">{{n}}</th>
+                            <th v-for="n in listaFuncoes">{{n}}</th>
                             <td></td>
 
                         </tr>
@@ -93,14 +93,15 @@
                         <!--Irmãos-->
                         <tr v-for="(irmao,x) in listaIrmaos">
 
-                            <th>{{irmao}} 
+                            <th>{{irmao.nome}}
                                 <i class="fas fa-trash-alt u-pull-right" @click="listaIrmaos.splice(x,1)"></i>
                             </th>
                             <!--loop nas funçoes-->
-                            <td v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']">
-
-                                <button>
+                            <td v-for="funcao in irmao.funcoes">
+                                
+                                <button :class=" [funcao ? 'button-primary' : 'button']" v-on:click="funcao=!funcao; log(funcao);" >
                                     <i class="fas fa-check"></i>
+                                    {{funcao}}
                                 </button>
                             </td>
                             <td></td>
@@ -111,10 +112,10 @@
                         <tr>
                             <!--Input para Irmãos-->
                             <td>
-                                <input type="text" placeholder="Adiconar Irmão" v-model="inputIrmao" @keyup.enter="listaIrmaos.push(inputIrmao);inputIrmao=null" >
+                                <input type="text" placeholder="Adiconar Irmão" v-model="inputIrmao" @keyup.enter="addIrmao(inputIrmao)" >
                             </td>
                             
-                            <td v-for="n in ['Indicador','Indicador/Microfone','Microfone','Som','Leitor']"></td>
+                            <td v-for="n in listaFuncoes"></td>
                             <td></td>
                         </tr>
 
@@ -194,7 +195,8 @@
                 pickerSkeleton: null,
                 dataAtual:moment().format('LTS'),
                 proximaSegunda:moment().isoWeekday(3),
-                listaIrmaos:['Arnaldo','Silvio','Reginaldo'],
+                listaIrmaos:[],
+                listaFuncoes:['Indicador','Indicador/Microfone','Microfone','Som','Leitor'],
                 inputIrmao:null
             },
             mounted: function() {
@@ -221,6 +223,19 @@
             methods: {
                 teste : function(event) {
                     this.proximaSegunda= moment().isoWeekday(0)
+                },
+                addIrmao: function(irmao) {
+                    this.listaIrmaos.push({
+                        nome: irmao,
+                        funcoes:{}
+                    });
+                    this.listaFuncoes.forEach(x => {
+                        this.listaIrmaos[this.listaIrmaos.length-1].funcoes[x]=true;
+                    });
+                    this.inputIrmao=null;
+                },
+                log: function (e) {
+                    console.log(e);
                 }
             },
             watch: {
