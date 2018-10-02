@@ -38,7 +38,19 @@
 
                 <div class="row">
                     <!-- Dias de Reunioes-->
-                    
+                    <div class=" six columns">
+                        <h4>Dias de Reunião</h4>
+                        <div class="u-full-width">
+                            <div class="row">
+                                <div v-for="dia in diasSemana"
+                                >
+                                    <button :class=" [dia.ativo ? 'button-primary' : 'button', 'one column' ]" v-on:click="dia.ativo=!dia.ativo" >{{dia.day}}</button>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
 
 
 
@@ -118,19 +130,7 @@
                 <hr>
                 <!--Botão de Gerar pdf-->
                 <div class="row">
-                    <div class=" six columns">
-                        <h4>Dias de Reunião</h4>
-                        <div class="u-full-width">
-                            <div class="row">
-                                <div v-for="dia in diasSemana"
-                                >
-                                    <button :class=" [dia.ativo ? 'button-primary' : 'button', 'one column' ]" v-on:click="dia.ativo=!dia.ativo" >{{dia.day}}</button>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                    
                     <button class=" u-full-width "> GERAR
                         <i class="fas fa-cogs"></i>
                     </button>
