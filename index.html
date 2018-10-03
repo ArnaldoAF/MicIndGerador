@@ -29,7 +29,8 @@
     <div id="app">
             
         <div class="container">
-            <div class="">
+            
+            <div class="tela1" v-if="tela">
                 <div class=" u-full-width ">
                     <h1>Gerador de Tabelas {{title}}</h1>
                     <h3>Para Microfone, Indicadores e Som</h3>
@@ -127,17 +128,59 @@
                     </table>
                 </div>
 
-                <hr>
+                
+            </div>
+            <div v-else>
+                    <table class="u-full-width">
+                            <caption>
+                                <h4></h4>
+                            </caption>
+                            <!--Funções-->
+                            <tr>
+                                <th>Dia da Semana</th>
+                                <th v-for="n in listaFuncoes">{{n}}</th>
+                                <td></td>
+    
+                            </tr>
+    
+                            <!--Irmãos-->
+                            <tr v-for="(irmao,index) in listaIrmaos">
+    
+                                <th>{{dataAtual}}
+                                    
+                                </th>
+                                <!--loop nas funçoes-->
+                                <div >
+                                    <td v-for="(funcao,nome) in irmao.funcoes">
+                                            {{irmao.nome}}
+                                    </td>
+                                </div>
+                                <td></td>
+    
+    
+                            </tr>
+    
+
+    
+    
+                        </table>
+            </div>
+            <hr>
                 <!--Botão de Gerar pdf-->
                 <div class="row">
                     
-                    <button class=" u-full-width "> GERAR
+                    <button class=" u-full-width " @click="tela=!tela"> 
+                        <p v-if="tela">
+                        GERAR
                         <i class="fas fa-cogs"></i>
+                        </p>
+                        <p v-else>
+                        REDEFINIR
+                        <i class="fas fa-redo"></i>
+                        </p>
                     </button>
 
                 </div>
-            </div>
-
             <!--Footer-->
             <hr>
             <div class="row ">
@@ -166,6 +209,7 @@
             data: {
                 
                 title: 'Hello World!',
+                tela: true,
                 diasSemana:  [
                                  {
                                     day:'S',
@@ -225,6 +269,30 @@
                 });
 
                 this.addIrmao("Arnaldo");
+            },
+            updated() {
+                this.pickerSkeleton = new Pikaday({
+                    format      : 'D/MMM/YYYY',
+                    field       : document.getElementById('datepicker-skeleton'),
+                    firstDay    : 1,
+                    minDate     : new Date(2010, 0, 1),
+                    maxDate     : new Date(2020, 12, 31),
+                    yearRange   : [2010, 2020],
+                    theme       : 'skeleton-theme',
+                    firstDay    : 0,
+
+                    i18n        : {
+                        previousMonth : 'Mês Anterior',
+                        nextMonth     : 'Próximo Mês',
+                        months        : ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+                        weekdays      : ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+                        weekdaysShort : ['Dom','Seg','Ter','Qua','Qui','Sex','Sab']
+                    }
+                    
+
+                });
+                //this.pickerSkeleton.setDate(this.dataAtual);
+
             },
             methods: {
                 
