@@ -271,26 +271,7 @@
                 this.addIrmao("Arnaldo");
             },
             updated() {
-                this.pickerSkeleton = new Pikaday({
-                    format      : 'D/MMM/YYYY',
-                    field       : document.getElementById('datepicker-skeleton'),
-                    firstDay    : 1,
-                    minDate     : new Date(2010, 0, 1),
-                    maxDate     : new Date(2020, 12, 31),
-                    yearRange   : [2010, 2020],
-                    theme       : 'skeleton-theme',
-                    firstDay    : 0,
 
-                    i18n        : {
-                        previousMonth : 'Mês Anterior',
-                        nextMonth     : 'Próximo Mês',
-                        months        : ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-                        weekdays      : ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-                        weekdaysShort : ['Dom','Seg','Ter','Qua','Qui','Sex','Sab']
-                    }
-                    
-
-                });
                 //this.pickerSkeleton.setDate(this.dataAtual);
 
             },
@@ -316,11 +297,41 @@
                     this.listaIrmaos.splice(index,1,  local);
                     console.log(this.listaIrmaos[index].funcoes[nome] );
 
+                },
+                newPikaday: function(){
+                    this.pickerSkeleton = new Pikaday({
+                            format      : 'D/MMM/YYYY',
+                            field       : document.getElementById('datepicker-skeleton'),
+                            firstDay    : 1,
+                            minDate     : new Date(2010, 0, 1),
+                            maxDate     : new Date(2020, 12, 31),
+                            yearRange   : [2010, 2020],
+                            theme       : 'skeleton-theme',
+                            firstDay    : 0,
+
+                            i18n        : {
+                                previousMonth : 'Mês Anterior',
+                                nextMonth     : 'Próximo Mês',
+                                months        : ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+                                weekdays      : ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+                                weekdaysShort : ['Dom','Seg','Ter','Qua','Qui','Sex','Sab']
+                            }
+                            
+
+                        });
                 }
             },
             watch: {
                 listaIrmaos: function (x){
                     console.log(this.listaIrmaos);
+                },
+                tela: function(x){
+                    console.log(x);
+                    if (x)
+                    {
+                        console.log(x);
+                        this.newPikaday();
+                    }
                 }
             }
         });
