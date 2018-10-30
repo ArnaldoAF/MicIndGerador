@@ -246,7 +246,8 @@
                 listaIrmaos:[],
                 listaFuncoes:['Indicador','Indicador/Microfone','Microfone','Som','Leitor'],
                 inputIrmao:null,
-                carregardatePicker:true
+                carregardatePicker:true,
+                tabelaFinal:null
             },
             mounted: function() {
                 
@@ -309,7 +310,59 @@
                         this.carregardatePicker=false;
                     }
 
+                },
+                gerarTabelaFinal: function()
+                {
+                    //Dia Padrão
+                    var defaultDay= {
+                        DiaM:null,
+                        DiaS:null,
+                        funcoes:{}
+                    }
+                    this.listaFuncoes.forEach(x => {
+                        defaultDay.funcoes[x]=null;
+                    });
+                    
+                    //Lista de Irmaos padrao
+                    var defaultListaIrmao = this.listaIrmaos;
+
+                    //fazer sorteio 20 vezes
+                    for (i=0;i<20;i++)
+                    {
+                        //usados nessa reuniao
+                        var thisDay = defaultDay;
+                        var thisIrmaos = defaultListaIrmao;
+
+                        
+                        thisDay.DiaM = this.dataAtual;
+                        thisDat.DiaS = this.dataAtual;
+
+                        //atribuindo as funções
+                        thisDay.funcoes.forEach(x => {
+                            var d=0;
+
+                            if (!thisIrmaos.some(y => y.funcoes[x])){
+                                thisDay.funcoes[x] = "";
+                                return;
+                            }
+                                
+
+
+                            while(!thisIrmaos[d].funcoes[x])
+                            {
+                                d = Math.floor(Math.random() * thisDay.funcoes.length);
+                            }
+
+                            thisDay.funcoes[x] = thisIrmaos[d].nome;
+                            
+                        })
+
+                        this.tabelaFinal.push(thisDay);
+                    }
+
+                    
                 }
+
             },
             watch: {
                 listaIrmaos: function (x){
