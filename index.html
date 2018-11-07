@@ -169,7 +169,7 @@
                 <!--Botão de Gerar pdf-->
                 <div class="row">
                     
-                    <button class=" u-full-width " @click="tela=!tela"> 
+                    <button class=" u-full-width " @click="tela=!tela;gerarTabelaFinal()"> 
                         <p v-if="tela">
                         GERAR
                         <i class="fas fa-cogs"></i>
@@ -252,6 +252,8 @@
             mounted: function() {
                 
                 this.addIrmao("Arnaldo");
+                this.addIrmao("Silvio");
+                this.addIrmao("Luca");
             },
             updated() {
 
@@ -313,6 +315,7 @@
                 },
                 gerarTabelaFinal: function()
                 {
+                    console.log("gerar tabela final");
                     //Dia Padrão
                     var defaultDay= {
                         DiaM:null,
@@ -322,6 +325,8 @@
                     this.listaFuncoes.forEach(x => {
                         defaultDay.funcoes[x]=null;
                     });
+
+                   console.log(defaultDay);
                     
                     //Lista de Irmaos padrao
                     var defaultListaIrmao = this.listaIrmaos;
@@ -329,18 +334,26 @@
                     //fazer sorteio 20 vezes
                     for (i=0;i<20;i++)
                     {
+                        console.log("Loop sorteio i-"+i);
                         //usados nessa reuniao
                         var thisDay = defaultDay;
                         var thisIrmaos = defaultListaIrmao;
 
                         
                         thisDay.DiaM = this.dataAtual;
-                        thisDat.DiaS = this.dataAtual;
+                        thisDay.DiaS = this.dataAtual;
+
+                        for(var abc in thisDay.funcoes)
+                        {
+                            console.log(abc);
+                            console.log(thisDay.funcoes[abc]);
+                        }
 
                         //atribuindo as funções
-                        thisDay.funcoes.forEach(x => {
+                        for(var x in thisDay.funcoes)
+                        {
                             var d=0;
-
+                            console.log(x);
                             if (!thisIrmaos.some(y => y.funcoes[x])){
                                 thisDay.funcoes[x] = "";
                                 return;
@@ -348,14 +361,13 @@
                                 
 
 
-                            while(!thisIrmaos[d].funcoes[x])
-                            {
+                            do{
                                 d = Math.floor(Math.random() * thisDay.funcoes.length);
-                            }
+                            }while(!thisIrmaos[d].funcoes[x])
 
                             thisDay.funcoes[x] = thisIrmaos[d].nome;
                             
-                        })
+                        }
 
                         this.tabelaFinal.push(thisDay);
                     }
