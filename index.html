@@ -144,15 +144,15 @@
                             </tr>
     
                             <!--Irmãos-->
-                            <tr v-for="(irmao,index) in listaIrmaos">
+                            <tr v-for="(dia,index) in tabelaFinal">
     
-                                <th>{{dataAtual}}
+                                <th>{{dia.DiaM}}
                                     
                                 </th>
                                 <!--loop nas funçoes-->
                                 <div >
-                                    <td v-for="(funcao,nome) in irmao.funcoes">
-                                            {{irmao.nome}}
+                                    <td v-for="(funcao,nome) in dia.funcoes">
+                                            {{funcao}}
                                     </td>
                                 </div>
                                 <td></td>
@@ -247,7 +247,7 @@
                 listaFuncoes:['Indicador','Indicador/Microfone','Microfone','Som','Leitor'],
                 inputIrmao:null,
                 carregardatePicker:true,
-                tabelaFinal:null
+                tabelaFinal:[]
             },
             mounted: function() {
                 
@@ -318,12 +318,12 @@
                     console.log("gerar tabela final");
                     //Dia Padrão
                     var defaultDay= {
-                        DiaM:null,
+                        DiaM:this.dataAtual,
                         DiaS:null,
                         funcoes:{}
                     }
                     this.listaFuncoes.forEach(x => {
-                        defaultDay.funcoes[x]=null;
+                        defaultDay.funcoes[x]=x;
                     });
 
                    console.log(defaultDay);
@@ -335,6 +335,7 @@
                     for (i=0;i<20;i++)
                     {
                         console.log("Loop sorteio i-"+i);
+                        /*
                         //usados nessa reuniao
                         var thisDay = defaultDay;
                         var thisIrmaos = defaultListaIrmao;
@@ -368,8 +369,9 @@
                             thisDay.funcoes[x] = thisIrmaos[d].nome;
                             
                         }
+                        */
 
-                        this.tabelaFinal.push(thisDay);
+                        this.tabelaFinal.push(defaultDay);
                     }
 
                     
