@@ -152,7 +152,7 @@
                                 <!--loop nas funçoes-->
                                 <div >
                                     <td v-for="(funcao,nome) in dia.funcoes">
-                                            {{funcao}}
+                                            {{funcao.nome}}
                                     </td>
                                 </div>
                                 <td></td>
@@ -315,6 +315,7 @@
                 },
                 gerarTabelaFinal: function()
                 {
+                    this.tabelaFinal = [];
                     console.log("gerar tabela final");
                     //Dia Padrão
                     var defaultDay= {
@@ -323,7 +324,7 @@
                         funcoes:{}
                     }
                     this.listaFuncoes.forEach(x => {
-                        defaultDay.funcoes[x]=x;
+                        defaultDay.funcoes[x]=this.listaIrmaos[0];
                     });
 
                    console.log(defaultDay);
