@@ -146,7 +146,7 @@
                             <!--Irmãos-->
                             <tr v-for="(dia,index) in tabelaFinal">
     
-                                <th>{{dia.DiaM}}
+                                <th>{{dia.DiaM}} - {{index}}
                                     
                                 </th>
                                 <!--loop nas funçoes-->
@@ -324,7 +324,7 @@
                         funcoes:{}
                     }
                     this.listaFuncoes.forEach(x => {
-                        defaultDay.funcoes[x]=this.listaIrmaos[0];
+                        defaultDay.funcoes[x]="null";
                     });
 
                    console.log(defaultDay);
@@ -332,24 +332,33 @@
                     //Lista de Irmaos padrao
                     var defaultListaIrmao = this.listaIrmaos;
 
+                    var thisDay = defaultDay;
+                    var thisIrmaos = defaultListaIrmao;
                     //fazer sorteio 20 vezes
-                    for (i=0;i<20;i++)
+                    for (i=0;i<19;i++)
                     {
                         console.log("Loop sorteio i-"+i);
-                        /*
+                        
                         //usados nessa reuniao
-                        var thisDay = defaultDay;
-                        var thisIrmaos = defaultListaIrmao;
-
+                        
+                        thisDay = defaultDay;
+                        thisIrmaos = defaultListaIrmao;
                         
                         thisDay.DiaM = this.dataAtual;
                         thisDay.DiaS = this.dataAtual;
+                        
 
                         for(var abc in thisDay.funcoes)
                         {
+                            thisDay.funcoes[abc] = this.listaIrmaos[( i%2==0 ? 0 : 1)]
                             console.log(abc);
-                            console.log(thisDay.funcoes[abc]);
+                            console.log(thisDay.funcoes[abc].nome);
+                            //console.log(thisDay.funcoes[abc]);
+                            
+
                         }
+                        debugger;
+                        /*
 
                         //atribuindo as funções
                         for(var x in thisDay.funcoes)
@@ -372,7 +381,7 @@
                         }
                         */
 
-                        this.tabelaFinal.push(defaultDay);
+                        this.tabelaFinal.push(thisDay);
                     }
 
                     
