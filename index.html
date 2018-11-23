@@ -335,13 +335,18 @@
                     var thisDay = defaultDay;
                     var thisIrmaos = defaultListaIrmao;
                     //fazer sorteio 20 vezes
-                    for (i=0;i<19;i++)
+                    for (i=0;i<20;i++)
                     {
                         console.log("Loop sorteio i-"+i);
                         
                         //usados nessa reuniao
                         
-                        thisDay = defaultDay;
+                        thisDay = Object.create( defaultDay );
+                        thisDay.funcoes = {};
+                        this.listaFuncoes.forEach(x => {
+                            thisDay.funcoes[x]="null";
+                        });
+
                         thisIrmaos = defaultListaIrmao;
                         
                         thisDay.DiaM = this.dataAtual;
@@ -357,7 +362,7 @@
                             
 
                         }
-                        debugger;
+                        //debugger;
                         /*
 
                         //atribuindo as funções
