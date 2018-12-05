@@ -152,7 +152,7 @@
                                 <!--loop nas funçoes-->
                                 <div >
                                     <td v-for="(funcao,nome) in dia.funcoes">
-                                            {{funcao.nome}}
+                                            {{funcao[0].nome}}
                                     </td>
                                 </div>
                                 <td></td>
@@ -254,6 +254,9 @@
                 this.addIrmao("Arnaldo");
                 this.addIrmao("Silvio");
                 this.addIrmao("Luca");
+                this.addIrmao("Silvano");
+                this.addIrmao("Aladir");
+                this.addIrmao("Reginaldo");
             },
             updated() {
 
@@ -347,15 +350,16 @@
                             thisDay.funcoes[x]="null";
                         });
 
-                        thisIrmaos = defaultListaIrmao;
+                        thisIrmaos = this.listaIrmaos.slice();
                         
                         thisDay.DiaM = this.dataAtual;
                         thisDay.DiaS = this.dataAtual;
                         
-
+                        //debugger;
                         for(var abc in thisDay.funcoes)
                         {
-                            thisDay.funcoes[abc] = this.listaIrmaos[( i%2==0 ? 0 : 1)]
+                            var d=Math.floor(Math.random() *  thisIrmaos.length);
+                            thisDay.funcoes[abc] = thisIrmaos.splice(d,1);
                             console.log(abc);
                             console.log(thisDay.funcoes[abc].nome);
                             //console.log(thisDay.funcoes[abc]);
