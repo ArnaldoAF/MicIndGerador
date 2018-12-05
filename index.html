@@ -152,7 +152,7 @@
                                 <!--loop nas funçoes-->
                                 <div >
                                     <td v-for="(funcao,nome) in dia.funcoes">
-                                            {{funcao[0].nome}}
+                                            {{funcao.nome}}
                                     </td>
                                 </div>
                                 <td></td>
@@ -340,6 +340,7 @@
                     //fazer sorteio 20 vezes
                     for (i=0;i<20;i++)
                     {
+                        console.log("---------------------------");
                         console.log("Loop sorteio i-"+i);
                         
                         //usados nessa reuniao
@@ -358,10 +359,26 @@
                         //debugger;
                         for(var abc in thisDay.funcoes)
                         {
-                            var d=Math.floor(Math.random() *  thisIrmaos.length);
-                            thisDay.funcoes[abc] = thisIrmaos.splice(d,1);
+                            console.log("--------");
+
+                            do{
+                                var d=Math.floor(Math.random() *  thisIrmaos.length);
+                            }while (!thisIrmaos[d].funcoes[abc] &&
+                                    !( i>0 && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome))
+                            );
+                            
+                            if(i>0)
+                            {
+                                //console.log(this.tabelaFinal[i-1].funcoes[abc].nome);
+                                console.log(this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome);
+                                //console.log(thisIrmaos[d].nome);
+                            }
+                            console.log(thisIrmaos[d].funcoes[abc]);
+                            thisDay.funcoes[abc] = thisIrmaos.splice(d,1)[0];
                             console.log(abc);
                             console.log(thisDay.funcoes[abc].nome);
+                            
+                            
                             //console.log(thisDay.funcoes[abc]);
                             
 
