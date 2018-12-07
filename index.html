@@ -363,16 +363,11 @@
 
                             do{
                                 var d=Math.floor(Math.random() *  thisIrmaos.length);
-                            }while (!thisIrmaos[d].funcoes[abc] &&
-                                    !( i>0 && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome))
-                            );
+                            }while (!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
+
+                            console.log(!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
+                            console.log((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome));
                             
-                            if(i>0)
-                            {
-                                //console.log(this.tabelaFinal[i-1].funcoes[abc].nome);
-                                console.log(this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome);
-                                //console.log(thisIrmaos[d].nome);
-                            }
                             console.log(thisIrmaos[d].funcoes[abc]);
                             thisDay.funcoes[abc] = thisIrmaos.splice(d,1)[0];
                             console.log(abc);
