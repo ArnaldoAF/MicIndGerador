@@ -410,6 +410,12 @@
                     }
 
                     
+                },
+                getDiaDaSemana: function (diaAtual)
+                {
+                    do{
+                        diaAtual.add(1,'d');
+                    }while(this.diasSemana.filter(x => x.ativo).includes(diaAtual.day())) ;
                 }
 
             },
