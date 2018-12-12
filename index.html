@@ -212,30 +212,37 @@
                 tela: true,
                 diasSemana:  [
                                  {
+                                    index: 0,
                                     day:'S',
                                     ativo:true
                                 },
                                  {
+                                    index: 1,
                                     day: 'T',
                                      ativo:false
                                     },
                                  {
+                                    index: 2,
                                     day: 'Q',
                                      ativo:false
                                     },
                                  {
+                                    index: 3,
                                      day:'Q',
                                      ativo:false
                                     },
                                  {
+                                    index: 4,
                                      day:'S',
                                      ativo:false
                                     },
                                  {
+                                    index: 5,
                                      day:'S',
                                      ativo:false
                                     },
                                  {
+                                    index: 6,
                                      day:'D',
                                      ativo:false
                                     }
@@ -341,6 +348,10 @@
 
                     var thisDay = defaultDay;
                     var thisIrmaos = defaultListaIrmao;
+                    var dia1 = moment(this.dataAtual);
+                    console.log(dia1);
+                    dia1.add(1,'d');
+                    console.log(dia1);
                     //fazer sorteio 20 vezes
                     for (i=0;i<20;i++)
                     {
@@ -357,25 +368,27 @@
 
                         thisIrmaos = this.listaIrmaos.slice();
                         
-                        thisDay.DiaM = this.dataAtual;
+                        
+                        thisDay.DiaM = (i==0) ? this.getDiaDaSemana(moment(dia1)) : this.getDiaDaSemana(moment(this.tabelaFinal[i-1].DiaM));
+                        console.log(thisDay.DiaM);
                         thisDay.DiaS = this.dataAtual;
                         
                         //debugger;
                         for(var abc in thisDay.funcoes)
                         {
-                            console.log("--------");
+                            //console.log("--------");
 
                             do{
                                 var d=Math.floor(Math.random() *  thisIrmaos.length);
                             }while (!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
 
-                            console.log(!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
-                            console.log((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome));
+                            //console.log(!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
+                            //console.log((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome));
                             
-                            console.log(thisIrmaos[d].funcoes[abc]);
+                            //console.log(thisIrmaos[d].funcoes[abc]);
                             thisDay.funcoes[abc] = thisIrmaos.splice(d,1)[0];
-                            console.log(abc);
-                            console.log(thisDay.funcoes[abc].nome);
+                            //console.log(abc);
+                            //console.log(thisDay.funcoes[abc].nome);
                             
                             
                             //console.log(thisDay.funcoes[abc]);
@@ -415,7 +428,12 @@
                 {
                     do{
                         diaAtual.add(1,'d');
-                    }while(this.diasSemana.filter(x => x.ativo).includes(diaAtual.day())) ;
+                    }while(this.diasSemana.filter(x => x.ativo)
+                                          .map(x => x.index)
+                                          .includes(diaAtual.day())
+                    );
+
+                    return diaAtual;
                 }
 
             },
