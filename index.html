@@ -71,7 +71,7 @@
                             id="datepicker-skeleton" 
                             class="u-cf"
                             @click="ativarDatePicker()"
-                            @change="dataAtual=pickerSkeleton.toString('D/MMM/YYYY');"
+                            @change="mudarData()"
                         >
                     </div>
                 </div>
@@ -434,6 +434,15 @@
                     );
 
                     return diaAtual;
+                },
+                mudarData: function()
+                {
+                    debugger
+                    var datalocal = this.pickerSkeleton.toString('DD/MM/YYYY');
+                    this.dataAtual=moment(datalocal, 'DD/MM/YYYY');
+
+                    this.dataAtual.add(1,'d');
+                    
                 }
 
             },
