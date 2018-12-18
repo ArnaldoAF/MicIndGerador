@@ -333,7 +333,7 @@
                     console.log("gerar tabela final");
                     //Dia Padrão
                     var defaultDay= {
-                        DiaM:this.dataAtual,
+                        DiaM:moment(this.dataAtual, 'DD/MM/YYYY'),
                         DiaS:null,
                         funcoes:{}
                     }
@@ -348,7 +348,7 @@
 
                     var thisDay = defaultDay;
                     var thisIrmaos = defaultListaIrmao;
-                    var dia1 = moment(this.dataAtual);
+                    var dia1 = moment(this.dataAtual, 'DD/MM/YYYY');
                     console.log(dia1);
                     dia1.add(1,'d');
                     console.log(dia1);
@@ -369,7 +369,8 @@
                         thisIrmaos = this.listaIrmaos.slice();
                         
                         
-                        thisDay.DiaM = (i==0) ? this.getDiaDaSemana(moment(dia1)) : this.getDiaDaSemana(moment(this.tabelaFinal[i-1].DiaM));
+                        thisDay.DiaM = (i==0) ? moment(this.getDiaDaSemana(moment(dia1)), 'DD/MM/YYYY') : moment(this.getDiaDaSemana(moment(this.tabelaFinal[i-1].DiaM)), 'DD/MM/YYYY');
+                        //thisDay.DiaM = 0;
                         console.log(thisDay.DiaM);
                         thisDay.DiaS = this.dataAtual;
                         
@@ -433,6 +434,7 @@
                                           .includes(diaAtual.day())
                     );
 
+                    console.log(diaAtual);
                     return diaAtual;
                 },
                 mudarData: function()
