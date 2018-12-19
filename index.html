@@ -350,7 +350,7 @@
                     var thisIrmaos = defaultListaIrmao;
                     var dia1 = moment(this.dataAtual, 'DD/MM/YYYY');
                     console.log(dia1);
-                    dia1.add(1,'d');
+                    //dia1.add(1,'d');
                     console.log(dia1);
                     //fazer sorteio 20 vezes
                     for (i=0;i<20;i++)
@@ -368,9 +368,9 @@
 
                         thisIrmaos = this.listaIrmaos.slice();
                         
-                        
-                        thisDay.DiaM = (i==0) ? moment(this.getDiaDaSemana(moment(dia1)), 'DD/MM/YYYY') : moment(this.getDiaDaSemana(moment(this.tabelaFinal[i-1].DiaM)), 'DD/MM/YYYY');
-                        //thisDay.DiaM = 0;
+                        debugger;
+                        //thisDay.DiaM = (i==0) ? moment(this.getDiaDaSemana(moment(dia1)), 'DD/MM/YYYY') : moment(this.getDiaDaSemana(moment(this.tabelaFinal[i-1].DiaM)), 'DD/MM/YYYY');
+                        thisDay.DiaM = moment(this.getDiaDaSemana(moment(dia1,'DD/MM/YYYY')), 'DD/MM/YYYY');
                         console.log(thisDay.DiaM);
                         thisDay.DiaS = this.dataAtual;
                         
@@ -427,23 +427,30 @@
                 },
                 getDiaDaSemana: function (diaAtual)
                 {
+                    debugger;
                     do{
                         diaAtual.add(1,'d');
-                    }while(this.diasSemana.filter(x => x.ativo)
+                    }while(!this.diasSemana.filter(x => x.ativo)
                                           .map(x => x.index)
                                           .includes(diaAtual.day())
                     );
+
+                    var lista = this.diasSemana.filter(x => x.ativo)
+                                          .map(x => x.index);
+                                          //.includes(diaAtual.day());
+                    
+                    var diada = diaAtual.day();
 
                     console.log(diaAtual);
                     return diaAtual;
                 },
                 mudarData: function()
                 {
-                    debugger
+                    //debugger
                     var datalocal = this.pickerSkeleton.toString('DD/MM/YYYY');
                     this.dataAtual=moment(datalocal, 'DD/MM/YYYY');
 
-                    this.dataAtual.add(1,'d');
+                    //this.dataAtual.add(1,'d');
                     
                 }
 
