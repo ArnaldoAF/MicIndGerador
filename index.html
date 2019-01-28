@@ -137,7 +137,8 @@
                             </caption>
                             <!--Funções-->
                             <tr>
-                                <th>Dia da Semana</th>
+                                <th>Data </th>
+                                <th>Dia</th>
                                 <th v-for="n in listaFuncoes">{{n}}</th>
                                 <td></td>
     
@@ -146,9 +147,8 @@
                             <!--Irmãos-->
                             <tr v-for="(dia,index) in tabelaFinal">
     
-                                <th>{{dia.DiaM}} - {{index}}
-                                    
-                                </th>
+                                <th>{{dia.DiaM}}</th>
+                                <th>{{dia.DiaS}}</th>
                                 <!--loop nas funçoes-->
                                 <div >
                                     <td v-for="(funcao,nome) in dia.funcoes">
@@ -333,7 +333,8 @@
                     console.log("gerar tabela final");
                     //Dia Padrão
                     var defaultDay= {
-                        DiaM:moment(this.dataAtual, 'DD/MM/YYYY'),
+                        Dia:moment(this.dataAtual, 'DD/MM/YYYY'),
+                        DiaM:null,
                         DiaS:null,
                         funcoes:{}
                     }
@@ -370,9 +371,17 @@
                         
                         debugger;
                         //thisDay.DiaM = (i==0) ? moment(this.getDiaDaSemana(moment(dia1)), 'DD/MM/YYYY') : moment(this.getDiaDaSemana(moment(this.tabelaFinal[i-1].DiaM)), 'DD/MM/YYYY');
-                        thisDay.DiaM = moment(this.getDiaDaSemana(moment(dia1,'DD/MM/YYYY')), 'DD/MM/YYYY');
-                        console.log(thisDay.DiaM);
-                        thisDay.DiaS = this.dataAtual;
+                        if (i==0)
+                        {
+                            thisDay.Dia = moment(this.getDiaDaSemana(moment(dia1,'DD/MM/YYYY')), 'DD/MM/YYYY');
+                        }
+                        else
+                        {
+                            thisDay.Dia = moment(this.getDiaDaSemana(moment(this.tabelaFinal[i-1].Dia,'DD/MM/YYYY')), 'DD/MM/YYYY');
+                        }
+                        console.log(thisDay.Dia);
+                        thisDay.DiaM = moment(thisDay.Dia).format('DD/MMM');
+                        thisDay.DiaS = moment(thisDay.Dia).format('ddd');
                         
                         //debugger;
                         for(var abc in thisDay.funcoes)
@@ -434,6 +443,8 @@
                                           .map(x => x.index)
                                           .includes(diaAtual.day())
                     );
+
+                    diaAtual.add(1,'d');
 
                     var lista = this.diasSemana.filter(x => x.ativo)
                                           .map(x => x.index);
