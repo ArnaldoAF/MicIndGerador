@@ -71,7 +71,7 @@
                             id="datepicker-skeleton" 
                             class="u-cf"
                             @click="ativarDatePicker()"
-                            @change="dataAtual=pickerSkeleton.toString('D/MMM/YYYY');"
+                            @change="mudarData()"
                         >
                     </div>
                 </div>
@@ -137,22 +137,22 @@
                             </caption>
                             <!--Funções-->
                             <tr>
-                                <th>Dia da Semana</th>
+                                <th>Data </th>
+                                <th>Dia</th>
                                 <th v-for="n in listaFuncoes">{{n}}</th>
                                 <td></td>
     
                             </tr>
     
                             <!--Irmãos-->
-                            <tr v-for="(irmao,index) in listaIrmaos">
+                            <tr v-for="(dia,index) in tabelaFinal">
     
-                                <th>{{dataAtual}}
-                                    
-                                </th>
+                                <th>{{dia.DiaM}}</th>
+                                <th>{{dia.DiaS}}</th>
                                 <!--loop nas funçoes-->
                                 <div >
-                                    <td v-for="(funcao,nome) in irmao.funcoes">
-                                            {{irmao.nome}}
+                                    <td v-for="(funcao,nome) in dia.funcoes">
+                                            {{funcao.nome}}
                                     </td>
                                 </div>
                                 <td></td>
@@ -169,7 +169,7 @@
                 <!--Botão de Gerar pdf-->
                 <div class="row">
                     
-                    <button class=" u-full-width " @click="tela=!tela"> 
+                    <button class=" u-full-width " @click="tela=!tela; if(!tela){gerarTabelaFinal()}    "> 
                         <p v-if="tela">
                         GERAR
                         <i class="fas fa-cogs"></i>
@@ -212,30 +212,37 @@
                 tela: true,
                 diasSemana:  [
                                  {
+                                    index: 0,
                                     day:'S',
                                     ativo:true
                                 },
                                  {
+                                    index: 1,
                                     day: 'T',
                                      ativo:false
                                     },
                                  {
+                                    index: 2,
                                     day: 'Q',
                                      ativo:false
                                     },
                                  {
+                                    index: 3,
                                      day:'Q',
                                      ativo:false
                                     },
                                  {
+                                    index: 4,
                                      day:'S',
                                      ativo:false
                                     },
                                  {
+                                    index: 5,
                                      day:'S',
                                      ativo:false
                                     },
                                  {
+                                    index: 6,
                                      day:'D',
                                      ativo:false
                                     }
@@ -246,11 +253,17 @@
                 listaIrmaos:[],
                 listaFuncoes:['Indicador','Indicador/Microfone','Microfone','Som','Leitor'],
                 inputIrmao:null,
-                carregardatePicker:true
+                carregardatePicker:true,
+                tabelaFinal:[]
             },
             mounted: function() {
                 
                 this.addIrmao("Arnaldo");
+                this.addIrmao("Silvio");
+                this.addIrmao("Luca");
+                this.addIrmao("Silvano");
+                this.addIrmao("Aladir");
+                this.addIrmao("Reginaldo");
             },
             updated() {
 
@@ -302,14 +315,156 @@
                 },
                 ativarDatePicker: function()
                 {
+                    
                     if(this.carregardatePicker){ 
                         this.newPikaday(); 
-                        console.log("novo datepicker"+x);
+                        console.log("novo datepicker");
 
-                        this.carregardatePicker=false;
+                        
+                    }
+                    this.carregardatePicker=false;
+                    
+                    
+
+                },
+                gerarTabelaFinal: function()
+                {
+                    this.tabelaFinal = [];
+                    console.log("gerar tabela final");
+                    //Dia Padrão
+                    var defaultDay= {
+                        Dia:moment(this.dataAtual, 'DD/MM/YYYY'),
+                        DiaM:null,
+                        DiaS:null,
+                        funcoes:{}
+                    }
+                    this.listaFuncoes.forEach(x => {
+                        defaultDay.funcoes[x]="null";
+                    });
+
+                   console.log(defaultDay);
+                    
+                    //Lista de Irmaos padrao
+                    var defaultListaIrmao = this.listaIrmaos;
+
+                    var thisDay = defaultDay;
+                    var thisIrmaos = defaultListaIrmao;
+                    var dia1 = moment(this.dataAtual, 'DD/MM/YYYY');
+                    console.log(dia1);
+                    //dia1.add(1,'d');
+                    console.log(dia1);
+                    //fazer sorteio 20 vezes
+                    for (i=0;i<20;i++)
+                    {
+                        console.log("---------------------------");
+                        console.log("Loop sorteio i-"+i);
+                        
+                        //usados nessa reuniao
+                        
+                        thisDay = Object.create( defaultDay );
+                        thisDay.funcoes = {};
+                        this.listaFuncoes.forEach(x => {
+                            thisDay.funcoes[x]="null";
+                        });
+
+                        thisIrmaos = this.listaIrmaos.slice();
+                        
+                        debugger;
+                        //thisDay.DiaM = (i==0) ? moment(this.getDiaDaSemana(moment(dia1)), 'DD/MM/YYYY') : moment(this.getDiaDaSemana(moment(this.tabelaFinal[i-1].DiaM)), 'DD/MM/YYYY');
+                        if (i==0)
+                        {
+                            thisDay.Dia = moment(this.getDiaDaSemana(moment(dia1,'DD/MM/YYYY')), 'DD/MM/YYYY');
+                        }
+                        else
+                        {
+                            thisDay.Dia = moment(this.getDiaDaSemana(moment(this.tabelaFinal[i-1].Dia,'DD/MM/YYYY')), 'DD/MM/YYYY');
+                        }
+                        console.log(thisDay.Dia);
+                        thisDay.DiaM = moment(thisDay.Dia).format('DD/MMM');
+                        thisDay.DiaS = moment(thisDay.Dia).format('ddd');
+                        
+                        //debugger;
+                        for(var abc in thisDay.funcoes)
+                        {
+                            //console.log("--------");
+
+                            do{
+                                var d=Math.floor(Math.random() *  thisIrmaos.length);
+                            }while (!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
+
+                            //console.log(!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
+                            //console.log((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome));
+                            
+                            //console.log(thisIrmaos[d].funcoes[abc]);
+                            thisDay.funcoes[abc] = thisIrmaos.splice(d,1)[0];
+                            //console.log(abc);
+                            //console.log(thisDay.funcoes[abc].nome);
+                            
+                            
+                            //console.log(thisDay.funcoes[abc]);
+                            
+
+                        }
+                        //debugger;
+                        /*
+
+                        //atribuindo as funções
+                        for(var x in thisDay.funcoes)
+                        {
+                            var d=0;
+                            console.log(x);
+                            if (!thisIrmaos.some(y => y.funcoes[x])){
+                                thisDay.funcoes[x] = "";
+                                return;
+                            }
+                                
+
+
+                            do{
+                                d = Math.floor(Math.random() * thisDay.funcoes.length);
+                            }while(!thisIrmaos[d].funcoes[x])
+
+                            thisDay.funcoes[x] = thisIrmaos[d].nome;
+                            
+                        }
+                        */
+
+                        this.tabelaFinal.push(thisDay);
                     }
 
+                    
+                },
+                getDiaDaSemana: function (diaAtual)
+                {
+                    debugger;
+                    do{
+                        diaAtual.add(1,'d');
+                    }while(!this.diasSemana.filter(x => x.ativo)
+                                          .map(x => x.index)
+                                          .includes(diaAtual.day())
+                    );
+
+                    diaAtual.add(1,'d');
+
+                    var lista = this.diasSemana.filter(x => x.ativo)
+                                          .map(x => x.index);
+                                          //.includes(diaAtual.day());
+                    
+                    var diada = diaAtual.day();
+
+                    console.log(diaAtual);
+                    return diaAtual;
+                },
+                mudarData: function()
+                {
+                    //debugger
+                    var datalocal = this.pickerSkeleton.toString('DD/MM/YYYY');
+                    this.dataAtual=moment(datalocal, 'DD/MM/YYYY');
+
+                    //this.dataAtual.add(1,'d');
+                    
                 }
+
             },
             watch: {
                 listaIrmaos: function (x){
@@ -319,6 +474,7 @@
                     console.log(x);
                     if (x)
                     {
+                        //this.ativarDatePicker();
                         //this.newPikaday();
                         console.log("--"+x);
                         
