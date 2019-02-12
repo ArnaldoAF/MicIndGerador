@@ -45,7 +45,7 @@
                             <div class="row">
                                 <div v-for="dia in diasSemana"
                                 >
-                                    <button :class=" [dia.ativo ? 'button-primary' : 'button', 'one column' ]" v-on:click="dia.ativo=!dia.ativo" >{{dia.day}}</button>
+                                    <button :class=" [dia.ativo ? 'button-primary' : 'button', 'one column' ]" v-on:click=" (!dia.ativo && (diasSemana.filter(x => x.ativo).length == 2)) ?  dia.ativo=dia.ativo  : dia.ativo=!dia.ativo" >{{dia.day}}</button>
 
                                 </div>
 
