@@ -43,10 +43,11 @@
                         <h4>Dias de Reunião</h4>
                         <div class="u-full-width">
                             <div class="row">
-                                <div v-for="dia in diasSemana"
-                                >
-                                    <button :class=" [dia.ativo ? 'button-primary' : 'button', 'one column' ]" v-on:click=" (!dia.ativo && (diasSemana.filter(x => x.ativo).length == 2)) ?  dia.ativo=dia.ativo  : dia.ativo=!dia.ativo" >{{dia.day}}</button>
-
+                                <div v-for="dia in diasSemana">
+                                    <button :class = " [dia.ativo ? 'button-primary' : 'button', 'one column' ]" 
+                                            v-on:click = "mudarDiaSemana(dia.index)" >
+                                        {{dia.day}}
+                                    </button>
                                 </div>
 
                             </div>
@@ -463,6 +464,15 @@
 
                     //this.dataAtual.add(1,'d');
                     
+                },
+                mudarDiaSemana: function(index) {
+                    //Função ñ deixa colocar mais de 2 dias da semana
+                    if(!this.diasSemana[index].ativo && (this.diasSemana.filter(x => x.ativo).length == 2)){
+                        this.diasSemana[index].ativo = this.diasSemana[index].ativo;
+                    }
+                    else{
+                        this.diasSemana[index].ativo = !this.diasSemana[index].ativo;
+                    } 
                 }
 
             },
