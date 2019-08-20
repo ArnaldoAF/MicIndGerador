@@ -121,6 +121,17 @@ new Vue({
             
 
         },
+        buttonGerar: function() 
+        {
+            this.validarGerar();
+            /*
+            this.tela=!this.tela;
+            if(!this.tela)
+            {
+                this.gerarTabelaFinal();
+            }
+            */
+        },
         gerarTabelaFinal: function()
         {
             this.tabelaFinal = [];
@@ -266,6 +277,23 @@ new Vue({
             else{
                 this.diasSemana[index].ativo = !this.diasSemana[index].ativo;
             } 
+        },
+        validarGerar: function()
+        {
+            valido = true;
+            messages = [];
+            //Irmão sem função
+            this.listaIrmaos.forEach(x => {
+                this.log(Object.values(x.funcoes).some(y=>y==true));
+                if(!Object.values(x.funcoes).some(y=>y==true))
+                {
+                    valido = false;
+                    messages.push("Há Irmão sem função!");
+                }
+
+            });
+
+
         }
 
     },
