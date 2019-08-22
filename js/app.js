@@ -284,14 +284,31 @@ new Vue({
             messages = [];
             //Irmão sem função
             this.listaIrmaos.forEach(x => {
-                this.log(Object.values(x.funcoes).some(y=>y==true));
+                //this.log(Object.values(x.funcoes).some(y=>y==true));
                 if(!Object.values(x.funcoes).some(y=>y==true))
                 {
                     valido = false;
-                    messages.push("Há Irmão sem função!");
+                    messages.push("Há Irmão "+x.nome+" sem função!");
+                    this.log("Irmão "+x.nome+" sem função");
                 }
 
             });
+
+            //função sem irmão
+            this.listaFuncoes.forEach(x => {
+                valido1 = false;
+                this.listaIrmaos.forEach(y => {
+                    if(y.funcoes[x]) valido1 =true;
+                });
+                if(!valido1)
+                {
+                    messages.push("Há Função "+x+" sem irmão!");
+                    this.log("Função "+x+" sem irmão");
+                }
+            });
+
+
+            return valido;
 
 
         }
