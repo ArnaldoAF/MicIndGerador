@@ -282,6 +282,15 @@ new Vue({
         {
             valido = true;
             messages = [];
+
+            //menos de 5 irmãos
+            if(this.listaIrmaos.length<5)
+            {
+                valido = false;
+                messages.push("Não há irmãos suficientes");
+                this.log("Não há irmãos suficientes");
+            }
+
             //Irmão sem função
             this.listaIrmaos.forEach(x => {
                 //this.log(Object.values(x.funcoes).some(y=>y==true));
@@ -307,6 +316,31 @@ new Vue({
                 }
             });
 
+            //minimo 2 irmãso por função
+            this.listaIrmaos.forEach(x => {
+                //this.log(Object.values(x.funcoes).some(y=>y==true));
+                if(Object.values(x.funcoes).filter(y=>y==true).length<2)
+                {
+                    valido = false;
+                    messages.push("Há Irmão "+x.nome+" sem função!");
+                    this.log("Irmão "+x.nome+" tem menos de 2 funções");
+                }
+
+            });
+
+            //função sem irmão
+            this.listaFuncoes.forEach(x => {
+                valido2 = false;
+                count = 0;
+                this.listaIrmaos.forEach(y => {
+                    if(!y.funcoes[x]) count++;
+                });
+                if(count>2)
+                {
+                    messages.push("Há Função "+x+" sem irmão!");
+                    this.log("Função "+x+" tem menos de 2 irmãos");
+                }
+            });
 
             return valido;
 
