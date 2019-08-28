@@ -167,6 +167,10 @@
     
                         </table>
             </div>
+
+
+            
+
             <hr>
                 <!--Botão de Gerar pdf-->
                 <div class="row">
@@ -183,7 +187,18 @@
                     </button>
 
                 </div>
-            <!--Footer-->
+            <!--Mensagens de Validação-->
+            <div v-if="messages.length > 0">
+                    <hr>
+                        <table class="u-full-width">
+                            <caption >
+                                <h5 v-for="message in messages"> {{message}}</h5>
+                            </caption>
+                        </table>
+
+            </div>
+                <!--Footer-->
+
             <hr>
             <div class="row ">
                 Made with

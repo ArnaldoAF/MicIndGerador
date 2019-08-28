@@ -48,7 +48,8 @@ new Vue({
         listaFuncoes:['Indicador','Indicador/Microfone','Microfone','Som','Leitor'],
         inputIrmao:null,
         carregardatePicker:true,
-        tabelaFinal:[]
+        tabelaFinal:[],
+        messages:[]
     },
     mounted: function() {
         
@@ -123,14 +124,15 @@ new Vue({
         },
         buttonGerar: function() 
         {
-            this.validarGerar();
-            /*
-            this.tela=!this.tela;
-            if(!this.tela)
+            if(this.validarGerar())
             {
-                this.gerarTabelaFinal();
+                this.tela=!this.tela;
+                if(!this.tela)
+                {
+                    this.gerarTabelaFinal();
+                }
             }
-            */
+
         },
         gerarTabelaFinal: function()
         {
@@ -281,40 +283,15 @@ new Vue({
         validarGerar: function()
         {
             valido = true;
-            messages = [];
+            this.messages = [];
 
             //menos de 5 irmãos
             if(this.listaIrmaos.length<5)
             {
                 valido = false;
-                messages.push("Não há irmãos suficientes");
+                this.messages.push("Não há irmãos suficientes");
                 this.log("Não há irmãos suficientes");
             }
-
-            //Irmão sem função
-            this.listaIrmaos.forEach(x => {
-                //this.log(Object.values(x.funcoes).some(y=>y==true));
-                if(!Object.values(x.funcoes).some(y=>y==true))
-                {
-                    valido = false;
-                    messages.push("Há Irmão "+x.nome+" sem função!");
-                    this.log("Irmão "+x.nome+" sem função");
-                }
-
-            });
-
-            //função sem irmão
-            this.listaFuncoes.forEach(x => {
-                valido1 = false;
-                this.listaIrmaos.forEach(y => {
-                    if(y.funcoes[x]) valido1 =true;
-                });
-                if(!valido1)
-                {
-                    messages.push("Há Função "+x+" sem irmão!");
-                    this.log("Função "+x+" sem irmão");
-                }
-            });
 
             //minimo 2 irmãso por função
             this.listaIrmaos.forEach(x => {
@@ -322,7 +299,7 @@ new Vue({
                 if(Object.values(x.funcoes).filter(y=>y==true).length<2)
                 {
                     valido = false;
-                    messages.push("Há Irmão "+x.nome+" sem função!");
+                    this.messages.push("Irmão "+x.nome+" tem menos de 2 funções");
                     this.log("Irmão "+x.nome+" tem menos de 2 funções");
                 }
 
@@ -333,11 +310,12 @@ new Vue({
                 valido2 = false;
                 count = 0;
                 this.listaIrmaos.forEach(y => {
-                    if(!y.funcoes[x]) count++;
+                    if(y.funcoes[x]) count++;
                 });
-                if(count>2)
+                if(count<2)
                 {
-                    messages.push("Há Função "+x+" sem irmão!");
+                    valido = false;
+                    this.messages.push("Função "+x+" tem menos de 2 irmãos");
                     this.log("Função "+x+" tem menos de 2 irmãos");
                 }
             });
