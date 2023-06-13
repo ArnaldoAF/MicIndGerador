@@ -1,0 +1,7 @@
+.button-box-table, .table-header {
+    text-align: center;
+}
+
+.fa-trash-alt {
+    cursor: pointer;
+}

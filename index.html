@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/skeleton.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/localStyle.css">
 
     <script src="vue.js"></script>
     
@@ -105,12 +106,13 @@
 
                     <table class="u-full-width">
                         <caption>
-                            <h4>Irmãos</h4>
+                            <h4>Privilégios dos irmãos</h4>
+                            <h>Nessa seção, defina os privilégios que cada irmão pode ter. Adicione mais irmãos no fim da tabela</h>
                         </caption>
                         <!--Funções-->
                         <tr>
                             <td></td>
-                            <th v-for="n in listaFuncoes">{{n}}</th>
+                            <th v-for="n in listaFuncoes" class="table-header">{{n}}</th>
                             <td></td>
 
                         </tr>
@@ -123,12 +125,10 @@
                             </th>
                             <!--loop nas funçoes-->
                             <div >
-                            <td v-for="(funcao,nome) in irmao.funcoes">
-                                
-                                
+                            <td v-for="(funcao,nome) in irmao.funcoes" class="button-box-table">
                                 <button   v-on:click="trocarStatus(nome,index); log(listaIrmaos[index].funcoes[nome]);" :class=" [listaIrmaos[index].funcoes[nome] ? 'button-primary' : 'button']"  >
                                     <i v-if="funcao" class="fas fa-check"></i> 
-                                    {{listaIrmaos[index].funcoes[nome]}}
+                                    <i v-else class="fas fa-times"></i> 
                                 </button>
                             </td>
                         </div>
