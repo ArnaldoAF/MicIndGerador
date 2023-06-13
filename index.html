@@ -62,7 +62,8 @@
 
                     <!-- Data  de reuniao-->
                     <div class=" six columns">
-                        <h4>Data Inicial</h4>
+                        <h4>Mês</h4>
+                        <h6>Escolha o mês para gerar a tabela</h6>
                         <!--
                         <input type="date" placeholder="Data Inicial">
                         
@@ -70,6 +71,24 @@
                         OUTRO METODO PARA PEGAR DATA
                         @change="dataAtual=pickerSkeleton.getDate()"  
                         -->
+                        <div class="row">
+                            <div class="six columns">
+                                <label for="exampleRecipientInput">Mês</label>
+                                <select class="u-full-width" id="exampleRecipientInput">
+                                  <option value="Option 1">Questions</option>
+                                  <option value="Option 2">Admiration</option>
+                                  <option value="Option 3">Can I get your number?</option>
+                                </select>
+                              </div>
+                              <div class="six columns">
+                                <label for="exampleRecipientInput">Ano</label>
+                                <select class="u-full-width" id="exampleRecipientInput">
+                                  <option value="Option 1">Questions</option>
+                                  <option value="Option 2">Admiration</option>
+                                  <option value="Option 3">Can I get your number?</option>
+                                </select>
+                              </div>
+                        </div>
                         <input 
                             type="text" 
                             id="datepicker-skeleton" 
