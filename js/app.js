@@ -101,6 +101,7 @@ new Vue({
         listaIrmaos:[],
         listaFuncoes:['Indicador','Indicador/Microfone','Microfone','Som','Leitor'],
         inputIrmao:null,
+        inputPrivilegio: null,
         carregardatePicker:true,
         tabelaFinal:[]
     },
@@ -128,14 +129,20 @@ new Vue({
     methods: {
         
         addIrmao: function(irmao) {
+            const localIrmao = irmao.charAt(0).toUpperCase() + irmao.slice(1).toLowerCase();
             this.listaIrmaos.push({
-                nome: irmao,
+                nome: localIrmao,
                 funcoes:{}
             });
             this.listaFuncoes.forEach(x => {
                 this.listaIrmaos[this.listaIrmaos.length-1].funcoes[x]=true;
             });
             this.inputIrmao=null;
+        },
+        addPrivilegio: function(privilegio) {
+            const localPrivilegio = privilegio.charAt(0).toUpperCase() + privilegio.slice(1).toLowerCase();
+            this.listaFuncoes.push(localPrivilegio);
+            this.inputPrivilegio=null;
         },
         log: function (e) {
             console.log(e);

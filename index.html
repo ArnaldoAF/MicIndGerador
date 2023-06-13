@@ -64,9 +64,6 @@
                         </div>
                     </div>
 
-
-
-
                     <!-- Data  de reuniao-->
                     <div class=" six columns">
                         <h4>Mês</h4>
@@ -100,6 +97,45 @@
                             @change="mudarData()"
                         >
                     </div>
+                </div>
+
+                <hr>
+                <div class="">
+                        
+                        <table class="u-full-width">
+                            <caption>
+                                <h4>Lista de Privilégios</h4>
+                                <h>Liste todos os privilégios, e a quantidade de irmãos necessários para cada função</h>
+                            </caption>
+                            <!--Funções-->
+                            <tr>
+                                <th class="table-header">Privilégios</th>
+                                <th class="table-header">Qtd</th>
+    
+                            </tr>
+    
+                            <!--Irmãos-->
+                            <tr v-for="(funcao,index) in listaFuncoes">
+    
+                                <td>
+                                    {{funcao}}
+                                    <i class="fas fa-trash-alt u-pull-right" @click="listaFuncoes.splice(index,1)"></i>
+                                </td>
+                                <!--loop nas funçoes-->
+                                <td>1</td>
+    
+    
+                            </tr>
+    
+                            <tr>
+                                <!--Input para Privilégios-->
+                                <td>
+                                    <input type="text" placeholder="Adiconar Privilégio" v-model="inputPrivilegio" @keyup.enter="addPrivilegio(inputPrivilegio)" >
+                                </td>
+                                
+                                <td></td>
+                            </tr>
+                        </table>
                 </div>
 
                 <hr>
