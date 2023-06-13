@@ -7,37 +7,37 @@ new Vue({
         diasSemana:  [
                          {
                             index: 0,
-                            day:'S',
+                            day:'Seg',
                             ativo:true
                         },
                          {
                             index: 1,
-                            day: 'T',
+                            day: 'Ter',
                              ativo:false
                             },
                          {
                             index: 2,
-                            day: 'Q',
+                            day: 'Qua',
                              ativo:false
                             },
                          {
                             index: 3,
-                             day:'Q',
+                             day:'Qui',
                              ativo:false
                             },
                          {
                             index: 4,
-                             day:'S',
+                             day:'Sex',
                              ativo:false
                             },
                          {
                             index: 5,
-                             day:'S',
+                             day:'Sab',
                              ativo:false
                             },
                          {
                             index: 6,
-                             day:'D',
+                             day:'Dom',
                              ativo:false
                             }
                          ],

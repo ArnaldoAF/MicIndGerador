@@ -33,8 +33,9 @@
             
             <div class="tela1" v-if="tela">
                 <div class=" u-full-width ">
-                    <h1>Gerador de Tabelas {{title}}</h1>
+                    <h1>Gerador de tabelas de privilégios </h1>
                     <h3>Para Microfone, Indicadores e Som</h3>
+                    <h5>Esta é uma ferramenta para gerar uma tabela de privilégios para uma reunião das testemunhas de Jeová</h5>
                 </div>
                 <hr>
 
@@ -42,10 +43,11 @@
                     <!-- Dias de Reunioes-->
                     <div class=" six columns">
                         <h4>Dias de Reunião</h4>
+                        <h6>Escolha os dias da semana em que a reunião ocorre</h6>
                         <div class="u-full-width">
                             <div class="row">
-                                <div v-for="dia in diasSemana">
-                                    <button :class = " [dia.ativo ? 'button-primary' : 'button', 'one column' ]" 
+                                <div v-for="dia in diasSemana" >
+                                    <button :class = " [dia.ativo ? 'button-primary' : 'button', ' four columns' ]" 
                                             v-on:click = "mudarDiaSemana(dia.index)" >
                                         {{dia.day}}
                                     </button>
