@@ -81,18 +81,14 @@
                         <div class="row">
                             <div class="six columns">
                                 <label for="exampleRecipientInput">Mês</label>
-                                <select class="u-full-width" id="exampleRecipientInput">
-                                  <option value="Option 1">Questions</option>
-                                  <option value="Option 2">Admiration</option>
-                                  <option value="Option 3">Can I get your number?</option>
+                                <select class="u-full-width" id="exampleRecipientInput" v-model="selectedMes">
+                                  <option v-for="mes, i in mesesLista" :value="mes.id">{{mes.month}}</option>
                                 </select>
                               </div>
                               <div class="six columns">
                                 <label for="exampleRecipientInput">Ano</label>
-                                <select class="u-full-width" id="exampleRecipientInput">
-                                  <option value="Option 1">Questions</option>
-                                  <option value="Option 2">Admiration</option>
-                                  <option value="Option 3">Can I get your number?</option>
+                                <select class="u-full-width" id="exampleRecipientInput" v-model="selectedAno">
+                                    <option v-for="ano in anosLista" :value="ano">{{ano}}</option>
                                 </select>
                               </div>
                         </div>
