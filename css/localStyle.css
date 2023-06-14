@@ -5,3 +5,24 @@
 .fa-trash-alt {
     cursor: pointer;
 }
+
+.privilegio-table {
+    max-width: 60%;
+    margin: auto;
+}
+
+.privilegio-counter {
+    text-align: center;
+    max-width: 4rem;
+}
+
+.small-hearder {
+}
+
+.privilegio-actions {
+    text-align: center;
+}
+
+.privilegio-actions input {
+    margin: 0 1rem;
+}

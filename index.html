@@ -100,7 +100,7 @@
                 </div>
 
                 <hr>
-                <div class="">
+                <div class="privilegio-table">
                         
                         <table class="u-full-width">
                             <caption>
@@ -110,19 +110,23 @@
                             <!--Funções-->
                             <tr>
                                 <th class="table-header">Privilégios</th>
-                                <th class="table-header">Qtd</th>
+                                <th class="table-header small-hearder">Qtd</th>
     
                             </tr>
     
                             <!--Irmãos-->
                             <tr v-for="(funcao,index) in listaFuncoes">
     
-                                <td>
+                                <td >
                                     {{funcao}}
                                     <i class="fas fa-trash-alt u-pull-right" @click="listaFuncoes.splice(index,1)"></i>
                                 </td>
                                 <!--loop nas funçoes-->
-                                <td>1</td>
+                                <td class="privilegio-actions" >
+                                    <i class="fas fa-minus " @click="listaFuncoes.splice(index,1)"></i>
+                                    <input type="text" disabled placeholder="1" class=" privilegio-counter">
+                                    <i class="fas fa-plus " @click="listaFuncoes.splice(index,1)"></i>
+                                </td>
     
     
                             </tr>
