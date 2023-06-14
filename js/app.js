@@ -244,6 +244,18 @@ new Vue({
             }
             */
         },
+        deleteIrmao: function(index) {
+            console.log("deleteIrmao");
+            const nome = this.listaIrmaos[index].nome;
+            console.log("nome -> ", nome)
+            this.listaIrmaos.splice(index,1);
+            this.listaFuncoes = this.listaFuncoes.map(funcao => {
+                funcao.irmaos = funcao.irmaos.filter(x => x!=nome)
+                return funcao;
+            })
+            console.log("this.listaFuncoes");
+            console.log(this.listaFuncoes);
+        },
         gerarTabelaFinal: function()
         {
             this.tabelaFinal = [];
