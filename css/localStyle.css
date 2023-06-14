@@ -2,7 +2,7 @@
     text-align: center;
 }
 
-.fa-trash-alt {
+.fa-trash-alt, .fa-minus, .fa-plus {
     cursor: pointer;
 }
 

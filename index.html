@@ -118,14 +118,14 @@
                             <tr v-for="(funcao,index) in listaFuncoes">
     
                                 <td >
-                                    {{funcao}}
+                                    {{funcao.name}}
                                     <i class="fas fa-trash-alt u-pull-right" @click="listaFuncoes.splice(index,1)"></i>
                                 </td>
                                 <!--loop nas funçoes-->
                                 <td class="privilegio-actions" >
-                                    <i class="fas fa-minus " @click="listaFuncoes.splice(index,1)"></i>
-                                    <input type="text" disabled placeholder="1" class=" privilegio-counter">
-                                    <i class="fas fa-plus " @click="listaFuncoes.splice(index,1)"></i>
+                                    <i class="fas fa-minus " @click="privilegioQtdMinus(index)"></i>
+                                    <input type="text" disabled :placeholder="listaFuncoes[index].qtd" class=" privilegio-counter">
+                                    <i class="fas fa-plus " @click="privilegioQtdPlus(index)"></i>
                                 </td>
     
     
@@ -154,7 +154,7 @@
                         <!--Funções-->
                         <tr>
                             <td></td>
-                            <th v-for="n in listaFuncoes" class="table-header">{{n}}</th>
+                            <th v-for="n in listaFuncoes" class="table-header">{{n.name}}</th>
                             <td></td>
 
                         </tr>

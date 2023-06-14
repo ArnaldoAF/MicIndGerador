@@ -99,7 +99,33 @@ new Vue({
         dataAtual:moment().format('LTS'),
         proximaSegunda:moment().isoWeekday(3),
         listaIrmaos:[],
-        listaFuncoes:['Indicador','Indicador/Microfone','Microfone','Som','Leitor'],
+        listaFuncoes:[
+            {
+                name:'Indicador',
+                qtd: 1,
+                irmaos: []
+            },
+            {
+                name:'Indicador/Microfone',
+                qtd: 1,
+                irmaos: []
+            },
+            {
+                name:'Microfone',
+                qtd: 1,
+                irmaos: []
+            },
+            {
+                name:'Som',
+                qtd: 1,
+                irmaos: []
+            },
+            {
+                name:'Leitor',
+                qtd: 1,
+                irmaos: []
+            }
+        ],
         inputIrmao:null,
         inputPrivilegio: null,
         carregardatePicker:true,
@@ -135,13 +161,18 @@ new Vue({
                 funcoes:{}
             });
             this.listaFuncoes.forEach(x => {
-                this.listaIrmaos[this.listaIrmaos.length-1].funcoes[x]=true;
+                this.listaIrmaos[this.listaIrmaos.length-1].funcoes[x.name]=true;
             });
             this.inputIrmao=null;
         },
         addPrivilegio: function(privilegio) {
             const localPrivilegio = privilegio.charAt(0).toUpperCase() + privilegio.slice(1).toLowerCase();
-            this.listaFuncoes.push(localPrivilegio);
+            const obj = {
+            name:localPrivilegio,
+            qtd: 1,
+            irmaos: []
+        }
+            this.listaFuncoes.push(obj);
             this.inputPrivilegio=null;
         },
         log: function (e) {
@@ -362,7 +393,14 @@ new Vue({
             });
 
 
-        }
+        },
+        privilegioQtdPlus: function(index) {
+            this.listaFuncoes[index].qtd++
+        },
+        privilegioQtdMinus: function(index) {
+            if (this.listaFuncoes[index].qtd > 1) this.listaFuncoes[index].qtd--;
+        },
+
 
     },
     watch: {
