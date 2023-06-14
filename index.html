@@ -167,9 +167,9 @@
                             </th>
                             <!--loop nas funçoes-->
                             <div >
-                            <td v-for="(funcao,nome) in irmao.funcoes" class="button-box-table">
-                                <button   v-on:click="trocarStatus(nome,index); log(listaIrmaos[index].funcoes[nome]);" :class=" [listaIrmaos[index].funcoes[nome] ? 'button-primary' : 'button']"  >
-                                    <i v-if="funcao" class="fas fa-check"></i> 
+                            <td v-for="(funcao,nome) in listaFuncoes" class="button-box-table">
+                                <button   v-on:click="trocarStatus(nome,irmao.nome); log(listaIrmaos[index].funcoes[nome]);" :class=" [funcao.irmaos.includes(irmao.nome) ? 'button-primary' : 'button']"  >
+                                    <i v-if="funcao.irmaos.includes(irmao.nome)" class="fas fa-check"></i> 
                                     <i v-else class="fas fa-times"></i> 
                                 </button>
                             </td>

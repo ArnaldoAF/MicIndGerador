@@ -178,12 +178,25 @@ new Vue({
         log: function (e) {
             console.log(e);
         },
-        trocarStatus: function(nome, index){
-            //this.listaIrmaos[index].funcoes[nome] = !this.listaIrmaos[index].funcoes[nome];
-            var local = this.listaIrmaos[index];
-            local.funcoes[nome] = !local.funcoes[nome];
-            this.listaIrmaos.splice(index,1,  local);
-            console.log(this.listaIrmaos[index].funcoes[nome] );
+        trocarStatus: function(funcaoIndex, irmaoIndex){
+            console.log(funcaoIndex)
+            console.log(irmaoIndex)
+            let listaFucaoIrmaos = this.listaFuncoes[funcaoIndex].irmaos;
+
+            if(!listaFucaoIrmaos.includes(irmaoIndex)) {
+                listaFucaoIrmaos.push(irmaoIndex);
+            }
+            else {
+                listaFucaoIrmaos = listaFucaoIrmaos.filter(x => x!=irmaoIndex)
+            }
+
+            this.listaFuncoes[funcaoIndex].irmaos = listaFucaoIrmaos;
+            console.log(this.listaFuncoes[funcaoIndex])
+            //this.listaIrmaos[irmaoIndex].funcoes[funcaoIndex] = !this.listaIrmaos[irmaoIndex].funcoes[funcaoIndex];
+            // var local = this.listaIrmaos[irmaoIndex];
+            // local.funcoes[funcaoIndex] = !local.funcoes[funcaoIndex];
+            // this.listaIrmaos.splice(irmaoIndex,1,  local);
+            // console.log(this.listaIrmaos[irmaoIndex].funcoes[funcaoIndex] );
 
         },
         newPikaday: function(){
