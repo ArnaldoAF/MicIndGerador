@@ -105,11 +105,6 @@ new Vue({
                 irmaos: []
             },
             {
-                name:'Indicador/Microfone',
-                qtd: 1,
-                irmaos: []
-            },
-            {
                 name:'Microfone',
                 qtd: 1,
                 irmaos: []
@@ -141,12 +136,7 @@ new Vue({
         this.selectedAno = year;
         this.selectedMes = month;
         
-        this.addIrmao("Arnaldo");
-        this.addIrmao("Silvio");
-        this.addIrmao("Luca");
-        this.addIrmao("Silvano");
-        this.addIrmao("Aladir");
-        this.addIrmao("Reginaldo");
+        
 
         
     },
