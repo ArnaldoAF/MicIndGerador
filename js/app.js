@@ -126,6 +126,7 @@ new Vue({
                 irmaos: []
             }
         ],
+        listaFuncoesTabelaFinal: [],
         inputIrmao:null,
         inputPrivilegio: null,
         carregardatePicker:true,
@@ -271,9 +272,19 @@ new Vue({
             // this.listaFuncoes.forEach(x => {
             //     defaultDay.funcoes[x]="null";
             // });
+            this.listaFuncoesTabelaFinal = [];
             this.listaFuncoes.forEach(funcao => {
                 console.log(JSON.stringify(funcao));
-            })
+                for (let i=0; i<funcao.qtd;i++) {
+                    let tempFuncao = JSON.parse(JSON.stringify(funcao));
+                    if(funcao.qtd > 1) 
+                        tempFuncao.name = tempFuncao.name + " " + (i + 1);
+
+                    this.listaFuncoesTabelaFinal.push(tempFuncao);
+                }
+            });
+
+            console.log(this.listaFuncoesTabelaFinal);
 
             
             //Lista de Irmaos padrao
@@ -293,7 +304,7 @@ new Vue({
                 
                 thisDay = Object.create( defaultDay );
                 // thisDayFuncoes = this.listaFuncoes.map(a => {return {...a}});
-                thisDayFuncoes = JSON.parse(JSON.stringify(this.listaFuncoes));
+                thisDayFuncoes = JSON.parse(JSON.stringify(this.listaFuncoesTabelaFinal));
                 thisDay.funcoes = [];
                 // this.listaFuncoes.forEach(x => {
                 //     thisDay.funcoes[x]="null";
