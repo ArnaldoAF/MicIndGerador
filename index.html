@@ -204,7 +204,7 @@
                             <tr>
                                 <th>Data </th>
                                 <th>Dia</th>
-                                <th v-for="n in listaFuncoes">{{n}}</th>
+                                <th v-for="funcao in listaFuncoes">{{funcao.name}}</th>
                                 <td></td>
     
                             </tr>
@@ -217,7 +217,7 @@
                                 <!--loop nas funçoes-->
                                 <div >
                                     <td v-for="(funcao,nome) in dia.funcoes">
-                                            {{funcao.nome}}
+                                            {{funcao}}
                                     </td>
                                 </div>
                                 <td></td>

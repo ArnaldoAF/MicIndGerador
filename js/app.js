@@ -266,17 +266,15 @@ new Vue({
                 Dia:moment(tempDateString, 'DD/MM/YYYY'),
                 DiaM:null,
                 DiaS:null,
-                funcoes:{}
+                funcoes:[]
             }
-            this.listaFuncoes.forEach(x => {
-                defaultDay.funcoes[x]="null";
-            });
+            // this.listaFuncoes.forEach(x => {
+            //     defaultDay.funcoes[x]="null";
+            // });
+            this.listaFuncoes.forEach(funcao => {
+                console.log(JSON.stringify(funcao));
+            })
 
-
-           console.log("this.dataAtual");
-           console.log(this.dataAtual);
-           console.log("defaultDay");
-           console.log(defaultDay);
             
             //Lista de Irmaos padrao
             var defaultListaIrmao = this.listaIrmaos;
@@ -284,10 +282,6 @@ new Vue({
             var thisDay = defaultDay;
             var thisIrmaos = defaultListaIrmao;
             var dia1 = moment(tempDateString, 'DD/MM/YYYY');
-            console.log("dia1");
-            console.log(dia1);
-            //dia1.add(1,'d');
-            console.log(dia1);
             //fazer sorteio 20 vezes
             let index = 0;
             while (thisDay.Dia.month() + 1 == this.selectedMes)
@@ -298,14 +292,16 @@ new Vue({
                 //usados nessa reuniao
                 
                 thisDay = Object.create( defaultDay );
-                thisDay.funcoes = {};
-                this.listaFuncoes.forEach(x => {
-                    thisDay.funcoes[x]="null";
-                });
+                // thisDayFuncoes = this.listaFuncoes.map(a => {return {...a}});
+                thisDayFuncoes = JSON.parse(JSON.stringify(this.listaFuncoes));
+                thisDay.funcoes = [];
+                // this.listaFuncoes.forEach(x => {
+                //     thisDay.funcoes[x]="null";
+                // });
 
                 thisIrmaos = this.listaIrmaos.slice();
                 
-                debugger;
+                // debugger;
                 //thisDay.DiaM = (i==0) ? moment(this.getDiaDaSemana(moment(dia1)), 'DD/MM/YYYY') : moment(this.getDiaDaSemana(moment(this.tabelaFinal[i-1].DiaM)), 'DD/MM/YYYY');
                 const tempDay1 = index==0 ? moment(dia1,'DD/MM/YYYY') : moment(this.tabelaFinal[index-1].Dia,'DD/MM/YYYY');
                 const tempDay2 = this.getDiaDaSemana(tempDay1);
@@ -318,7 +314,44 @@ new Vue({
                 console.log(thisDay.Dia.month());
                 
                 //debugger;
-                // for(var abc in thisDay.funcoes)
+                console.log("FUNCAO");
+                console.log(thisDayFuncoes);
+                console.log(this.listaFuncoes);
+                
+                thisDayFuncoes.forEach(funcao => {
+                    console.warn("-----------Random Generator------------");
+                    console.log(funcao.name);
+                    let validRandomNumber = true;
+                    let i = 0
+                    let randomIrmao = "";
+
+                    do {
+                        
+                        validRandomNumber = true;
+                        let randonNumber = Math.floor(Math.random() *  funcao.irmaos.length);
+                        randomIrmao = funcao.irmaos[randonNumber];
+                        console.log(randomIrmao);
+                        console.log(thisDay.funcoes);
+                        console.log(thisDay.funcoes.includes(randomIrmao));
+                        console.log(validRandomNumber);
+                        if (thisDay.funcoes.includes(randomIrmao)) {
+                            validRandomNumber = false;
+                            funcao.irmaos.splice(randonNumber, 1);
+                        }
+                        if (funcao.irmaos.length == 0) {
+                            validRandomNumber = true;
+                            randomIrmao = "ERRO";
+                            console.log("ERRO")
+                        }
+                        i++;
+                        debugger;
+
+                    } while(validRandomNumber == false);
+                    thisDay.funcoes.push(randomIrmao);
+
+                })
+                    
+                
                 // {
                 //     //console.log("--------");
 
@@ -364,6 +397,7 @@ new Vue({
                 */
 
                 this.tabelaFinal.push(thisDay);
+                debugger;
                 index++;
                 
             }
@@ -372,7 +406,7 @@ new Vue({
         },
         getDiaDaSemana: function (diaAtual)
         {
-            debugger;
+            // debugger;
             const diasDaSemanaAtivos = this.diasSemana.filter(x => x.ativo);
             const diasDaSemanaIndex = diasDaSemanaAtivos.map(x => x.index);
 
