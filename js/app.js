@@ -1,7 +1,6 @@
 new Vue({
     el: '#app',
     data: {
-        
         title: 'Hello World!',
         tela: true,
         diasSemana:  [
@@ -130,6 +129,7 @@ new Vue({
         inputIrmao:null,
         inputPrivilegio: null,
         carregardatePicker:true,
+        printSize: false,
         tabelaFinal:[]
     },
     mounted: function() {
@@ -147,6 +147,8 @@ new Vue({
         this.addIrmao("Silvano");
         this.addIrmao("Aladir");
         this.addIrmao("Reginaldo");
+
+        
     },
     updated() {
 
@@ -474,6 +476,52 @@ new Vue({
         privilegioQtdMinus: function(index) {
             if (this.listaFuncoes[index].qtd > 1) this.listaFuncoes[index].qtd--;
         },
+        downloadPDF: function() {
+            const { jsPDF } = window.jspdf;
+
+            const tabelaFinal = document.querySelector("#tabela-final");
+
+            const doc = new jsPDF();
+            this.printSize = true;
+
+            doc.html(tabelaFinal, {
+                callback: function (doc) {
+                    this.printSize = true;
+                    doc.save(`Quadro.pdf`);
+                },
+                x: 15,
+                y: 15,
+                width: 180, //target width in the PDF document
+                windowWidth: 800 //window width in CSS pixels
+             });
+             this.printSize = false;
+
+
+            //  html2canvas(tabelaFinal, {
+            //     onclone: (cloneDoc) => {
+            //         // const cloneGrid = cloneDoc.querySelector("#origami-grid")
+        
+            //         // cloneGrid.classList.remove("origami-grid-normal");
+            //         // cloneGrid.classList.add("origami-grid-big");
+            //     }
+            // }).then((canvas) => {
+            //     const image = canvas.toDataURL();
+            
+            //     const doc = new jsPDF();
+            
+            //     doc.addImage(
+            //         image, 
+            //         'PNG',
+            //         0,
+            //         0,
+            //         595.28,
+            //         800
+            //     );
+            //     doc.save(`Quadro 2.pdf`);
+            //     // 'a4': [595.28, 841.89],
+            // });
+            
+        }
 
 
     },
