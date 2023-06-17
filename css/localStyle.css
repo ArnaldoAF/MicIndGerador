@@ -26,3 +26,13 @@
 .privilegio-actions input {
     margin: 0 1rem;
 }
+
+#tabela-final {
+    margin-top: 3rem;
+}
+
+#tabela-final p {
+    text-align: center;
+    text-decoration: bold;
+    margin-top: 7rem;
+}

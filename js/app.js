@@ -413,6 +413,7 @@ new Vue({
                 
             }
             console.log(this.tabelaFinal);
+            window.scrollTo({top: 0, behavior: 'smooth'});
             
         },
         getDiaDaSemana: function (diaAtual)

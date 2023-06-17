@@ -195,40 +195,38 @@
 
                 
             </div>
-            <div v-else>
-                    <table class="u-full-width">
-                            <caption>
-                                <h4></h4>
-                            </caption>
-                            <!--Funções-->
-                            <tr>
-                                <th>Data </th>
-                                <th>Dia</th>
-                                <th v-for="funcao in this.listaFuncoesTabelaFinal">{{funcao.name}}</th>
-                                <td></td>
-    
-                            </tr>
-    
-                            <!--Irmãos-->
-                            <tr v-for="(dia,index) in tabelaFinal">
-    
-                                <th>{{dia.DiaM}}</th>
-                                <th>{{dia.DiaS}}</th>
-                                <!--loop nas funçoes-->
-                                <div >
-                                    <td v-for="(funcao,nome) in dia.funcoes">
-                                            {{funcao}}
-                                    </td>
-                                </div>
-                                <td></td>
-    
-    
-                            </tr>
-    
+            <div v-else >
+                <div id="tabela-final">
+                    <table class="u-full-width" >
+                        <caption>
+                            <h2>DESIGNIÇÕES PARA AS REUNIÕES</h1>
+                        </caption>
+                        <!--Funções-->
+                        <tr>
+                            <th>Data </th>
+                            <th>Dia</th>
+                            <th v-for="funcao in this.listaFuncoesTabelaFinal">{{funcao.name}}</th>
+                            <td></td>
 
-    
-    
-                        </table>
+                        </tr>
+
+                        <!--Irmãos-->
+                        <tr v-for="(dia,index) in tabelaFinal">
+
+                            <th>{{dia.DiaM}}</th>
+                            <th>{{dia.DiaS}}</th>
+                            <!--loop nas funçoes-->
+                            <div >
+                                <td v-for="(funcao,nome) in dia.funcoes">
+                                        {{funcao}}
+                                </td>
+                            </div>
+                            <td></td>
+                        </tr>
+                </table>
+                <p><strong>"Mas que todas as coisas ocorram com decência e ordem"</strong> - 1 Coríntios 14:40</p>
+                </div>
+                    
             </div>
             <hr>
                 <!--Botão de Gerar pdf-->
