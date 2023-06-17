@@ -8,7 +8,7 @@ new Vue({
                          {
                             index: 0,
                             day:'Seg',
-                            ativo:true
+                            ativo:false
                         },
                          {
                             index: 1,
@@ -18,7 +18,7 @@ new Vue({
                          {
                             index: 2,
                             day: 'Qua',
-                             ativo:false
+                             ativo:true
                             },
                          {
                             index: 3,
@@ -33,7 +33,7 @@ new Vue({
                          {
                             index: 5,
                              day:'Sab',
-                             ativo:false
+                             ativo:true
                             },
                          {
                             index: 6,
@@ -205,8 +205,8 @@ new Vue({
                     field       : document.getElementById('datepicker-skeleton'),
                     firstDay    : 1,
                     minDate     : new Date(2010, 0, 1),
-                    maxDate     : new Date(2020, 12, 31),
-                    yearRange   : [2010, 2020],
+                    maxDate     : new Date(2028, 12, 31),
+                    yearRange   : [2010, 2028],
                     theme       : 'skeleton-theme',
                     firstDay    : 0,
 
@@ -236,13 +236,13 @@ new Vue({
         buttonGerar: function() 
         {
             this.validarGerar();
-            /*
+            
             this.tela=!this.tela;
             if(!this.tela)
             {
                 this.gerarTabelaFinal();
             }
-            */
+            
         },
         deleteIrmao: function(index) {
             console.log("deleteIrmao");
@@ -259,10 +259,11 @@ new Vue({
         gerarTabelaFinal: function()
         {
             this.tabelaFinal = [];
-            console.log("gerar tabela final");
+            console.warn("gerar tabela final");
+            const tempDateString = `1/${this.selectedMes}/${this.selectedAno}`;
             //Dia Padrão
             var defaultDay= {
-                Dia:moment(this.dataAtual, 'DD/MM/YYYY'),
+                Dia:moment(tempDateString, 'DD/MM/YYYY'),
                 DiaM:null,
                 DiaS:null,
                 funcoes:{}
@@ -271,6 +272,10 @@ new Vue({
                 defaultDay.funcoes[x]="null";
             });
 
+
+           console.log("this.dataAtual");
+           console.log(this.dataAtual);
+           console.log("defaultDay");
            console.log(defaultDay);
             
             //Lista de Irmaos padrao
@@ -278,15 +283,17 @@ new Vue({
 
             var thisDay = defaultDay;
             var thisIrmaos = defaultListaIrmao;
-            var dia1 = moment(this.dataAtual, 'DD/MM/YYYY');
+            var dia1 = moment(tempDateString, 'DD/MM/YYYY');
+            console.log("dia1");
             console.log(dia1);
             //dia1.add(1,'d');
             console.log(dia1);
             //fazer sorteio 20 vezes
-            for (i=0;i<20;i++)
+            let index = 0;
+            while (thisDay.Dia.month() + 1 == this.selectedMes)
             {
                 console.log("---------------------------");
-                console.log("Loop sorteio i-"+i);
+                console.log("Loop sorteio i-"+index);
                 
                 //usados nessa reuniao
                 
@@ -300,40 +307,38 @@ new Vue({
                 
                 debugger;
                 //thisDay.DiaM = (i==0) ? moment(this.getDiaDaSemana(moment(dia1)), 'DD/MM/YYYY') : moment(this.getDiaDaSemana(moment(this.tabelaFinal[i-1].DiaM)), 'DD/MM/YYYY');
-                if (i==0)
-                {
-                    thisDay.Dia = moment(this.getDiaDaSemana(moment(dia1,'DD/MM/YYYY')), 'DD/MM/YYYY');
-                }
-                else
-                {
-                    thisDay.Dia = moment(this.getDiaDaSemana(moment(this.tabelaFinal[i-1].Dia,'DD/MM/YYYY')), 'DD/MM/YYYY');
-                }
-                console.log(thisDay.Dia);
+                const tempDay1 = index==0 ? moment(dia1,'DD/MM/YYYY') : moment(this.tabelaFinal[index-1].Dia,'DD/MM/YYYY');
+                const tempDay2 = this.getDiaDaSemana(tempDay1);
+                thisDay.Dia = moment(tempDay2, 'DD/MM/YYYY');
+                
+                
                 thisDay.DiaM = moment(thisDay.Dia).format('DD/MMM');
                 thisDay.DiaS = moment(thisDay.Dia).format('ddd');
+                console.log(thisDay.DiaM);
+                console.log(thisDay.Dia.month());
                 
                 //debugger;
-                for(var abc in thisDay.funcoes)
-                {
-                    //console.log("--------");
+                // for(var abc in thisDay.funcoes)
+                // {
+                //     //console.log("--------");
 
-                    do{
-                        var d=Math.floor(Math.random() *  thisIrmaos.length);
-                    }while (!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
+                //     do{
+                //         var d=Math.floor(Math.random() *  thisIrmaos.length);
+                //     }while (!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
 
-                    //console.log(!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
-                    //console.log((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome));
+                //     //console.log(!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
+                //     //console.log((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome));
                     
-                    //console.log(thisIrmaos[d].funcoes[abc]);
-                    thisDay.funcoes[abc] = thisIrmaos.splice(d,1)[0];
-                    //console.log(abc);
-                    //console.log(thisDay.funcoes[abc].nome);
+                //     //console.log(thisIrmaos[d].funcoes[abc]);
+                //     thisDay.funcoes[abc] = thisIrmaos.splice(d,1)[0];
+                //     //console.log(abc);
+                //     //console.log(thisDay.funcoes[abc].nome);
                     
                     
-                    //console.log(thisDay.funcoes[abc]);
+                //     //console.log(thisDay.funcoes[abc]);
                     
 
-                }
+                // }
                 //debugger;
                 /*
 
@@ -359,27 +364,25 @@ new Vue({
                 */
 
                 this.tabelaFinal.push(thisDay);
+                index++;
+                
             }
-
+            console.log(this.tabelaFinal);
             
         },
         getDiaDaSemana: function (diaAtual)
         {
             debugger;
+            const diasDaSemanaAtivos = this.diasSemana.filter(x => x.ativo);
+            const diasDaSemanaIndex = diasDaSemanaAtivos.map(x => x.index);
+
             do{
                 diaAtual.add(1,'d');
-            }while(!this.diasSemana.filter(x => x.ativo)
-                                  .map(x => x.index)
-                                  .includes(diaAtual.day())
-            );
+            }while(!diasDaSemanaIndex.includes(diaAtual.day()));
 
             diaAtual.add(1,'d');
 
-            var lista = this.diasSemana.filter(x => x.ativo)
-                                  .map(x => x.index);
-                                  //.includes(diaAtual.day());
             
-            var diada = diaAtual.day();
 
             console.log(diaAtual);
             return diaAtual;
@@ -408,7 +411,7 @@ new Vue({
             messages = [];
             //Irmão sem função
             this.listaIrmaos.forEach(x => {
-                this.log(Object.values(x.funcoes).some(y=>y==true));
+                console.log(Object.values(x.funcoes).some(y=>y==true));
                 if(!Object.values(x.funcoes).some(y=>y==true))
                 {
                     valido = false;
