@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/skeleton.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/localStyle.css">
+
+
+    
 
     <script src="vue.js"></script>
     
@@ -23,6 +27,9 @@
     
 
 
+
+    <link rel=“shortcut icon” href=“favicon.ico” type=“image/x-icon”>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 
 <body>
@@ -33,8 +40,9 @@
             
             <div class="tela1" v-if="tela">
                 <div class=" u-full-width ">
-                    <h1>Gerador de Tabelas {{title}}</h1>
+                    <h1>Gerador de tabelas de privilégios </h1>
                     <h3>Para Microfone, Indicadores e Som</h3>
+                    <h5>Esta é uma ferramenta para gerar uma tabela de privilégios para uma reunião das testemunhas de Jeová</h5>
                 </div>
                 <hr>
 
@@ -42,10 +50,11 @@
                     <!-- Dias de Reunioes-->
                     <div class=" six columns">
                         <h4>Dias de Reunião</h4>
+                        <h6>Escolha os dias da semana em que a reunião ocorre</h6>
                         <div class="u-full-width">
                             <div class="row">
-                                <div v-for="dia in diasSemana">
-                                    <button :class = " [dia.ativo ? 'button-primary' : 'button', 'one column' ]" 
+                                <div v-for="dia in diasSemana" >
+                                    <button :class = " [dia.ativo ? 'button-primary' : 'button', ' four columns' ]" 
                                             v-on:click = "mudarDiaSemana(dia.index)" >
                                         {{dia.day}}
                                     </button>
@@ -55,12 +64,10 @@
                         </div>
                     </div>
 
-
-
-
                     <!-- Data  de reuniao-->
                     <div class=" six columns">
-                        <h4>Data Inicial</h4>
+                        <h4>Mês</h4>
+                        <h6>Escolha o mês para gerar a tabela</h6>
                         <!--
                         <input type="date" placeholder="Data Inicial">
                         
@@ -68,14 +75,65 @@
                         OUTRO METODO PARA PEGAR DATA
                         @change="dataAtual=pickerSkeleton.getDate()"  
                         -->
-                        <input 
-                            type="text" 
-                            id="datepicker-skeleton" 
-                            class="u-cf"
-                            @click="ativarDatePicker()"
-                            @change="mudarData()"
-                        >
+                        <div class="row">
+                            <div class="six columns">
+                                <label for="exampleRecipientInput">Mês</label>
+                                <select class="u-full-width" id="exampleRecipientInput" v-model="selectedMes">
+                                  <option v-for="mes, i in mesesLista" :value="mes.id">{{mes.month}}</option>
+                                </select>
+                              </div>
+                              <div class="six columns">
+                                <label for="exampleRecipientInput">Ano</label>
+                                <select class="u-full-width" id="exampleRecipientInput" v-model="selectedAno">
+                                    <option v-for="ano in anosLista" :value="ano">{{ano}}</option>
+                                </select>
+                              </div>
+                        </div>
+                        
                     </div>
+                </div>
+
+                <hr>
+                <div class="privilegio-table">
+                        
+                        <table class="u-full-width">
+                            <caption>
+                                <h4>Lista de Privilégios</h4>
+                                <h6>Liste todos os privilégios, e a quantidade de irmãos necessários para cada função</h6>
+                            </caption>
+                            <!--Funções-->
+                            <tr>
+                                <th class="table-header">Privilégios</th>
+                                <th class="table-header small-hearder">Qtd</th>
+    
+                            </tr>
+    
+                            <!--Irmãos-->
+                            <tr v-for="(funcao,index) in listaFuncoes">
+    
+                                <td >
+                                    {{funcao.name}}
+                                    <i class="fas fa-trash-alt u-pull-right" @click="listaFuncoes.splice(index,1)"></i>
+                                </td>
+                                <!--loop nas funçoes-->
+                                <td class="privilegio-actions" >
+                                    <i class="fas fa-minus " @click="privilegioQtdMinus(index)"></i>
+                                    <input type="text" disabled :placeholder="listaFuncoes[index].qtd" class=" privilegio-counter">
+                                    <i class="fas fa-plus " @click="privilegioQtdPlus(index)"></i>
+                                </td>
+    
+    
+                            </tr>
+    
+                            <tr>
+                                <!--Input para Privilégios-->
+                                <td>
+                                    <input type="text" placeholder="Adiconar Privilégio" v-model="inputPrivilegio" @keyup.enter="addPrivilegio(inputPrivilegio)" >
+                                </td>
+                                
+                                <td></td>
+                            </tr>
+                        </table>
                 </div>
 
                 <hr>
@@ -84,12 +142,13 @@
 
                     <table class="u-full-width">
                         <caption>
-                            <h4>Irmãos</h4>
+                            <h4>Privilégios dos irmãos</h4>
+                            <h6>Nessa seção, defina os privilégios que cada irmão pode ter. Adicione mais irmãos no fim da tabela</h6>
                         </caption>
                         <!--Funções-->
                         <tr>
                             <td></td>
-                            <th v-for="n in listaFuncoes">{{n}}</th>
+                            <th v-for="n in listaFuncoes" class="table-header">{{n.name}}</th>
                             <td></td>
 
                         </tr>
@@ -98,16 +157,14 @@
                         <tr v-for="(irmao,index) in listaIrmaos">
 
                             <th>{{irmao.nome}}
-                                <i class="fas fa-trash-alt u-pull-right" @click="listaIrmaos.splice(index,1)"></i>
+                                <i class="fas fa-trash-alt u-pull-right" @click="deleteIrmao(index)"></i>
                             </th>
                             <!--loop nas funçoes-->
                             <div >
-                            <td v-for="(funcao,nome) in irmao.funcoes">
-                                
-                                
-                                <button   v-on:click="trocarStatus(nome,index); log(listaIrmaos[index].funcoes[nome]);" :class=" [listaIrmaos[index].funcoes[nome] ? 'button-primary' : 'button']"  >
-                                    <i v-if="funcao" class="fas fa-check"></i> 
-                                    {{listaIrmaos[index].funcoes[nome]}}
+                            <td v-for="(funcao,nome) in listaFuncoes" class="button-box-table">
+                                <button   v-on:click="trocarStatus(nome,irmao.nome); log(listaIrmaos[index].funcoes[nome]);" :class=" [funcao.irmaos.includes(irmao.nome) ? 'button-primary' : 'button']"  >
+                                    <i v-if="funcao.irmaos.includes(irmao.nome)" class="fas fa-check"></i> 
+                                    <i v-else class="fas fa-times"></i> 
                                 </button>
                             </td>
                         </div>
@@ -132,40 +189,43 @@
 
                 
             </div>
-            <div v-else>
-                    <table class="u-full-width">
-                            <caption>
-                                <h4></h4>
-                            </caption>
-                            <!--Funções-->
-                            <tr>
-                                <th>Data </th>
-                                <th>Dia</th>
-                                <th v-for="n in listaFuncoes">{{n}}</th>
-                                <td></td>
-    
-                            </tr>
-    
-                            <!--Irmãos-->
-                            <tr v-for="(dia,index) in tabelaFinal">
-    
-                                <th>{{dia.DiaM}}</th>
-                                <th>{{dia.DiaS}}</th>
-                                <!--loop nas funçoes-->
-                                <div >
-                                    <td v-for="(funcao,nome) in dia.funcoes">
-                                            {{funcao.nome}}
-                                    </td>
-                                </div>
-                                <td></td>
-    
-    
-                            </tr>
-    
+            <div v-else >
+                <div id="tabela-final">
+                    <table class="u-full-width" >
+                        <caption>
+                            <h4>DESIGNIÇÕES PARA AS REUNIÕES</h4>
+                        </caption>
+                        <!--Funções-->
+                        <tr>
+                            <th>Data </th>
+                            <th>Dia</th>
+                            <th v-for="funcao in this.listaFuncoesTabelaFinal">{{funcao.name}}</th>
+                            <td></td>
 
-    
-    
-                        </table>
+                        </tr>
+
+                        <!--Irmãos-->
+                        <tr v-for="(dia,index) in tabelaFinal">
+
+                            <th>{{dia.DiaM}}</th>
+                            <th>{{dia.DiaS}}</th>
+                            <!--loop nas funçoes-->
+                            <div >
+                                <td v-for="(funcao,nome) in dia.funcoes">
+                                        {{funcao}}
+                                </td>
+                            </div>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <p><strong>"Mas que todas as coisas ocorram com decência e ordem"</strong> - 1 Coríntios 14:40</p>
+                </div>
+                <button class=" u-full-width " @click="downloadPDF()"> 
+                    Gerar pdf
+                    <i class="fas fa-cogs"></i>
+                    
+                </button>
+                    
             </div>
             <hr>
                 <!--Botão de Gerar pdf-->
@@ -187,13 +247,29 @@
             <hr>
             <div class="row ">
                 Made with
-                <i class="fas fa-heart"></i> by Arnaldo Assis Ferreira
+                <i class="fas fa-heart"></i> by <a target="_blank" href="https://github.com/ArnaldoAF"
+                class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">ArnaldoAF</a>
+                - <a target="_blank" href="https://github.com/ArnaldoAF/MicIndGerador"
+                    class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">Github</a>
                 <br> Tools:
                 <br>
                 <ul>
-                    <li>VueJs</li>
-                    <li>Skeleton</li>
-                    <li>PickADay</li>
+                    <li>
+                        <a target="_blank" href="https://vuejs.org/"
+                            class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">VueJs</a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="http://getskeleton.com/"
+                            class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">Skeleton CSS</a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://html2canvas.hertzen.com/"
+                            class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">html2canvas</a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://parall.ax/products/jspdf"
+                            class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">jspdf</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -203,6 +279,8 @@
     
     <script src='https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.4.0/pikaday.min.js'></script>
     <script src="js/datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/html2canvas.js"></script>
 
     <script>
 

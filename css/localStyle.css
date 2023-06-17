@@ -1,0 +1,38 @@
+.button-box-table, .table-header {
+    text-align: center;
+}
+
+.fa-trash-alt, .fa-minus, .fa-plus {
+    cursor: pointer;
+}
+
+.privilegio-table {
+    max-width: 60%;
+    margin: auto;
+}
+
+.privilegio-counter {
+    text-align: center;
+    max-width: 4rem;
+}
+
+.small-hearder {
+}
+
+.privilegio-actions {
+    text-align: center;
+}
+
+.privilegio-actions input {
+    margin: 0 1rem;
+}
+
+#tabela-final {
+    margin-top: 3rem;
+}
+
+#tabela-final p {
+    text-align: center;
+    text-decoration: bold;
+    margin-top: 7rem;
+}

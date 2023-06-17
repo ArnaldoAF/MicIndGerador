@@ -1,63 +1,144 @@
 new Vue({
     el: '#app',
     data: {
-        
         title: 'Hello World!',
         tela: true,
         diasSemana:  [
                          {
                             index: 0,
-                            day:'S',
-                            ativo:true
+                            day:'Seg',
+                            ativo:false
                         },
                          {
                             index: 1,
-                            day: 'T',
+                            day: 'Ter',
                              ativo:false
                             },
                          {
                             index: 2,
-                            day: 'Q',
-                             ativo:false
+                            day: 'Qua',
+                             ativo:true
                             },
                          {
                             index: 3,
-                             day:'Q',
+                             day:'Qui',
                              ativo:false
                             },
                          {
                             index: 4,
-                             day:'S',
+                             day:'Sex',
                              ativo:false
                             },
                          {
                             index: 5,
-                             day:'S',
-                             ativo:false
+                             day:'Sab',
+                             ativo:true
                             },
                          {
                             index: 6,
-                             day:'D',
+                             day:'Dom',
                              ativo:false
                             }
                          ],
+        mesesLista: [
+            {
+                id: 1,
+                month: 'Janeiro'
+            },
+            {
+                id: 2,
+                month: 'Fevereiro'
+            },
+            {
+                id: 3,
+                month: 'Março'
+            },
+            {
+                id: 4,
+                month: 'Abril'
+            },
+            {
+                id: 5,
+                month: 'Maio'
+            },
+            {
+                id: 6,
+                month: 'Junho'
+            },
+            {
+                id: 7,
+                month: 'Julho'
+            },
+            {
+                id: 8,
+                month: 'Agosto'
+            },
+            {
+                id: 9,
+                month: 'Setembro'
+            },
+            {
+                id: 10,
+                month: 'Outubro'
+            },
+            {
+                id: 11,
+                month: 'Novembro'
+            },
+            {
+                id: 12,
+                month: 'Dezembro'
+            }
+
+        ],
+        anosLista: [],
+        selectedAno: null,
+        selectedMes: null,
         pickerSkeleton: null,
         dataAtual:moment().format('LTS'),
         proximaSegunda:moment().isoWeekday(3),
         listaIrmaos:[],
-        listaFuncoes:['Indicador','Indicador/Microfone','Microfone','Som','Leitor'],
+        listaFuncoes:[
+            {
+                name:'Indicador',
+                qtd: 1,
+                irmaos: []
+            },
+            {
+                name:'Microfone',
+                qtd: 1,
+                irmaos: []
+            },
+            {
+                name:'Som',
+                qtd: 1,
+                irmaos: []
+            },
+            {
+                name:'Leitor',
+                qtd: 1,
+                irmaos: []
+            }
+        ],
+        listaFuncoesTabelaFinal: [],
         inputIrmao:null,
+        inputPrivilegio: null,
         carregardatePicker:true,
+        printSize: false,
         tabelaFinal:[]
     },
     mounted: function() {
+        const year = moment().year();
+        const month = moment().month() + 1;
+        console.log(month)
+
+        this.anosLista=[year, year+1];
+        this.selectedAno = year;
+        this.selectedMes = month;
         
-        this.addIrmao("Arnaldo");
-        this.addIrmao("Silvio");
-        this.addIrmao("Luca");
-        this.addIrmao("Silvano");
-        this.addIrmao("Aladir");
-        this.addIrmao("Reginaldo");
+        
+
+        
     },
     updated() {
 
@@ -67,24 +148,48 @@ new Vue({
     methods: {
         
         addIrmao: function(irmao) {
+            const localIrmao = irmao.charAt(0).toUpperCase() + irmao.slice(1).toLowerCase();
             this.listaIrmaos.push({
-                nome: irmao,
+                nome: localIrmao,
                 funcoes:{}
             });
             this.listaFuncoes.forEach(x => {
-                this.listaIrmaos[this.listaIrmaos.length-1].funcoes[x]=true;
+                this.listaIrmaos[this.listaIrmaos.length-1].funcoes[x.name]=true;
             });
             this.inputIrmao=null;
+        },
+        addPrivilegio: function(privilegio) {
+            const localPrivilegio = privilegio.charAt(0).toUpperCase() + privilegio.slice(1).toLowerCase();
+            const obj = {
+            name:localPrivilegio,
+            qtd: 1,
+            irmaos: []
+        }
+            this.listaFuncoes.push(obj);
+            this.inputPrivilegio=null;
         },
         log: function (e) {
             console.log(e);
         },
-        trocarStatus: function(nome, index){
-            //this.listaIrmaos[index].funcoes[nome] = !this.listaIrmaos[index].funcoes[nome];
-            var local = this.listaIrmaos[index];
-            local.funcoes[nome] = !local.funcoes[nome];
-            this.listaIrmaos.splice(index,1,  local);
-            console.log(this.listaIrmaos[index].funcoes[nome] );
+        trocarStatus: function(funcaoIndex, irmaoIndex){
+            console.log(funcaoIndex)
+            console.log(irmaoIndex)
+            let listaFucaoIrmaos = this.listaFuncoes[funcaoIndex].irmaos;
+
+            if(!listaFucaoIrmaos.includes(irmaoIndex)) {
+                listaFucaoIrmaos.push(irmaoIndex);
+            }
+            else {
+                listaFucaoIrmaos = listaFucaoIrmaos.filter(x => x!=irmaoIndex)
+            }
+
+            this.listaFuncoes[funcaoIndex].irmaos = listaFucaoIrmaos;
+            console.log(this.listaFuncoes[funcaoIndex])
+            //this.listaIrmaos[irmaoIndex].funcoes[funcaoIndex] = !this.listaIrmaos[irmaoIndex].funcoes[funcaoIndex];
+            // var local = this.listaIrmaos[irmaoIndex];
+            // local.funcoes[funcaoIndex] = !local.funcoes[funcaoIndex];
+            // this.listaIrmaos.splice(irmaoIndex,1,  local);
+            // console.log(this.listaIrmaos[irmaoIndex].funcoes[funcaoIndex] );
 
         },
         newPikaday: function(){
@@ -93,8 +198,8 @@ new Vue({
                     field       : document.getElementById('datepicker-skeleton'),
                     firstDay    : 1,
                     minDate     : new Date(2010, 0, 1),
-                    maxDate     : new Date(2020, 12, 31),
-                    yearRange   : [2010, 2020],
+                    maxDate     : new Date(2028, 12, 31),
+                    yearRange   : [2010, 2028],
                     theme       : 'skeleton-theme',
                     firstDay    : 0,
 
@@ -124,92 +229,152 @@ new Vue({
         buttonGerar: function() 
         {
             this.validarGerar();
-            /*
+            
             this.tela=!this.tela;
             if(!this.tela)
             {
                 this.gerarTabelaFinal();
             }
-            */
+            
+        },
+        deleteIrmao: function(index) {
+            console.log("deleteIrmao");
+            const nome = this.listaIrmaos[index].nome;
+            console.log("nome -> ", nome)
+            this.listaIrmaos.splice(index,1);
+            this.listaFuncoes = this.listaFuncoes.map(funcao => {
+                funcao.irmaos = funcao.irmaos.filter(x => x!=nome)
+                return funcao;
+            })
+            console.log("this.listaFuncoes");
+            console.log(this.listaFuncoes);
         },
         gerarTabelaFinal: function()
         {
             this.tabelaFinal = [];
-            console.log("gerar tabela final");
+            console.warn("gerar tabela final");
+            const tempDateString = `1/${this.selectedMes}/${this.selectedAno}`;
             //Dia Padrão
             var defaultDay= {
-                Dia:moment(this.dataAtual, 'DD/MM/YYYY'),
+                Dia:moment(tempDateString, 'DD/MM/YYYY'),
                 DiaM:null,
                 DiaS:null,
-                funcoes:{}
+                funcoes:[]
             }
-            this.listaFuncoes.forEach(x => {
-                defaultDay.funcoes[x]="null";
+            // this.listaFuncoes.forEach(x => {
+            //     defaultDay.funcoes[x]="null";
+            // });
+            this.listaFuncoesTabelaFinal = [];
+            this.listaFuncoes.forEach(funcao => {
+                console.log(JSON.stringify(funcao));
+                for (let i=0; i<funcao.qtd;i++) {
+                    let tempFuncao = JSON.parse(JSON.stringify(funcao));
+                    if(funcao.qtd > 1) 
+                        tempFuncao.name = tempFuncao.name + " " + (i + 1);
+
+                    this.listaFuncoesTabelaFinal.push(tempFuncao);
+                }
             });
 
-           console.log(defaultDay);
+            console.log(this.listaFuncoesTabelaFinal);
+
             
             //Lista de Irmaos padrao
             var defaultListaIrmao = this.listaIrmaos;
 
             var thisDay = defaultDay;
             var thisIrmaos = defaultListaIrmao;
-            var dia1 = moment(this.dataAtual, 'DD/MM/YYYY');
-            console.log(dia1);
-            //dia1.add(1,'d');
-            console.log(dia1);
+            var dia1 = moment(tempDateString, 'DD/MM/YYYY');
             //fazer sorteio 20 vezes
-            for (i=0;i<20;i++)
+            let index = 0;
+            while (thisDay.Dia.month() + 1 == this.selectedMes)
             {
                 console.log("---------------------------");
-                console.log("Loop sorteio i-"+i);
+                console.log("Loop sorteio i-"+index);
                 
                 //usados nessa reuniao
                 
                 thisDay = Object.create( defaultDay );
-                thisDay.funcoes = {};
-                this.listaFuncoes.forEach(x => {
-                    thisDay.funcoes[x]="null";
-                });
+                // thisDayFuncoes = this.listaFuncoes.map(a => {return {...a}});
+                thisDayFuncoes = JSON.parse(JSON.stringify(this.listaFuncoesTabelaFinal));
+                thisDay.funcoes = [];
+                // this.listaFuncoes.forEach(x => {
+                //     thisDay.funcoes[x]="null";
+                // });
 
                 thisIrmaos = this.listaIrmaos.slice();
                 
-                debugger;
+                // debugger;
                 //thisDay.DiaM = (i==0) ? moment(this.getDiaDaSemana(moment(dia1)), 'DD/MM/YYYY') : moment(this.getDiaDaSemana(moment(this.tabelaFinal[i-1].DiaM)), 'DD/MM/YYYY');
-                if (i==0)
-                {
-                    thisDay.Dia = moment(this.getDiaDaSemana(moment(dia1,'DD/MM/YYYY')), 'DD/MM/YYYY');
-                }
-                else
-                {
-                    thisDay.Dia = moment(this.getDiaDaSemana(moment(this.tabelaFinal[i-1].Dia,'DD/MM/YYYY')), 'DD/MM/YYYY');
-                }
-                console.log(thisDay.Dia);
+                const tempDay1 = index==0 ? moment(dia1,'DD/MM/YYYY') : moment(this.tabelaFinal[index-1].Dia,'DD/MM/YYYY');
+                const tempDay2 = this.getDiaDaSemana(tempDay1);
+                thisDay.Dia = moment(tempDay2, 'DD/MM/YYYY');
+                
+                
                 thisDay.DiaM = moment(thisDay.Dia).format('DD/MMM');
                 thisDay.DiaS = moment(thisDay.Dia).format('ddd');
+                console.log(thisDay.DiaM);
+                console.log(thisDay.Dia.month());
                 
                 //debugger;
-                for(var abc in thisDay.funcoes)
-                {
-                    //console.log("--------");
+                console.log("FUNCAO");
+                console.log(thisDayFuncoes);
+                console.log(this.listaFuncoes);
+                
+                thisDayFuncoes.forEach(funcao => {
+                    console.warn("-----------Random Generator------------");
+                    console.log(funcao.name);
+                    let validRandomNumber = true;
+                    let i = 0
+                    let randomIrmao = "";
 
-                    do{
-                        var d=Math.floor(Math.random() *  thisIrmaos.length);
-                    }while (!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
+                    do {
+                        
+                        validRandomNumber = true;
+                        let randonNumber = Math.floor(Math.random() *  funcao.irmaos.length);
+                        randomIrmao = funcao.irmaos[randonNumber];
+                        console.log(randomIrmao);
+                        console.log(thisDay.funcoes);
+                        console.log(thisDay.funcoes.includes(randomIrmao));
+                        console.log(validRandomNumber);
+                        if (thisDay.funcoes.includes(randomIrmao)) {
+                            validRandomNumber = false;
+                            funcao.irmaos.splice(randonNumber, 1);
+                        }
+                        if (funcao.irmaos.length == 0) {
+                            validRandomNumber = true;
+                            randomIrmao = "ERRO";
+                            console.log("ERRO")
+                        }
+                        i++;
+                        debugger;
 
-                    //console.log(!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
-                    //console.log((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome));
+                    } while(validRandomNumber == false);
+                    thisDay.funcoes.push(randomIrmao);
+
+                })
                     
-                    //console.log(thisIrmaos[d].funcoes[abc]);
-                    thisDay.funcoes[abc] = thisIrmaos.splice(d,1)[0];
-                    //console.log(abc);
-                    //console.log(thisDay.funcoes[abc].nome);
+                
+                // {
+                //     //console.log("--------");
+
+                //     do{
+                //         var d=Math.floor(Math.random() *  thisIrmaos.length);
+                //     }while (!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
+
+                //     //console.log(!thisIrmaos[d].funcoes[abc] || ((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome)));
+                //     //console.log((i>0) && (this.tabelaFinal[i-1].funcoes[abc].nome == thisIrmaos[d].nome));
+                    
+                //     //console.log(thisIrmaos[d].funcoes[abc]);
+                //     thisDay.funcoes[abc] = thisIrmaos.splice(d,1)[0];
+                //     //console.log(abc);
+                //     //console.log(thisDay.funcoes[abc].nome);
                     
                     
-                    //console.log(thisDay.funcoes[abc]);
+                //     //console.log(thisDay.funcoes[abc]);
                     
 
-                }
+                // }
                 //debugger;
                 /*
 
@@ -235,27 +400,27 @@ new Vue({
                 */
 
                 this.tabelaFinal.push(thisDay);
+                debugger;
+                index++;
+                
             }
-
+            console.log(this.tabelaFinal);
+            window.scrollTo({top: 0, behavior: 'smooth'});
             
         },
         getDiaDaSemana: function (diaAtual)
         {
-            debugger;
+            // debugger;
+            const diasDaSemanaAtivos = this.diasSemana.filter(x => x.ativo);
+            const diasDaSemanaIndex = diasDaSemanaAtivos.map(x => x.index);
+
             do{
                 diaAtual.add(1,'d');
-            }while(!this.diasSemana.filter(x => x.ativo)
-                                  .map(x => x.index)
-                                  .includes(diaAtual.day())
-            );
+            }while(!diasDaSemanaIndex.includes(diaAtual.day()));
 
             diaAtual.add(1,'d');
 
-            var lista = this.diasSemana.filter(x => x.ativo)
-                                  .map(x => x.index);
-                                  //.includes(diaAtual.day());
             
-            var diada = diaAtual.day();
 
             console.log(diaAtual);
             return diaAtual;
@@ -284,7 +449,7 @@ new Vue({
             messages = [];
             //Irmão sem função
             this.listaIrmaos.forEach(x => {
-                this.log(Object.values(x.funcoes).some(y=>y==true));
+                console.log(Object.values(x.funcoes).some(y=>y==true));
                 if(!Object.values(x.funcoes).some(y=>y==true))
                 {
                     valido = false;
@@ -294,7 +459,60 @@ new Vue({
             });
 
 
+        },
+        privilegioQtdPlus: function(index) {
+            this.listaFuncoes[index].qtd++
+        },
+        privilegioQtdMinus: function(index) {
+            if (this.listaFuncoes[index].qtd > 1) this.listaFuncoes[index].qtd--;
+        },
+        downloadPDF: function() {
+            const { jsPDF } = window.jspdf;
+
+            const tabelaFinal = document.querySelector("#tabela-final");
+
+            const doc = new jsPDF();
+            this.printSize = true;
+
+            doc.html(tabelaFinal, {
+                callback: function (doc) {
+                    this.printSize = true;
+                    doc.save(`Quadro.pdf`);
+                },
+                x: 15,
+                y: 15,
+                width: 180, //target width in the PDF document
+                windowWidth: 800 //window width in CSS pixels
+             });
+             this.printSize = false;
+
+
+            //  html2canvas(tabelaFinal, {
+            //     onclone: (cloneDoc) => {
+            //         // const cloneGrid = cloneDoc.querySelector("#origami-grid")
+        
+            //         // cloneGrid.classList.remove("origami-grid-normal");
+            //         // cloneGrid.classList.add("origami-grid-big");
+            //     }
+            // }).then((canvas) => {
+            //     const image = canvas.toDataURL();
+            
+            //     const doc = new jsPDF();
+            
+            //     doc.addImage(
+            //         image, 
+            //         'PNG',
+            //         0,
+            //         0,
+            //         595.28,
+            //         800
+            //     );
+            //     doc.save(`Quadro 2.pdf`);
+            //     // 'a4': [595.28, 841.89],
+            // });
+            
         }
+
 
     },
     watch: {
