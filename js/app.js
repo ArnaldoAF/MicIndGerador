@@ -565,7 +565,16 @@ new Vue({
                 this.listaIrmaos = listaIrmaos;
                 this.listaFuncoes = listaFuncoes;
             }
-        }
+        },
+        downloadJson: function(){
+            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.gerarObjetoSalvar(), undefined, 4));
+            var downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href",     dataStr);
+            downloadAnchorNode.setAttribute("download", "QuadroDesignacoes.json");
+            document.body.appendChild(downloadAnchorNode); // required for firefox
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+          }
 
 
     },
