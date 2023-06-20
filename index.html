@@ -113,7 +113,7 @@
     
                                 <td >
                                     {{funcao.name}}
-                                    <i class="fas fa-trash-alt u-pull-right" @click="listaFuncoes.splice(index,1)"></i>
+                                    <i class="fas fa-trash-alt u-pull-right" @click="deletePrivilegio(index)"></i>
                                 </td>
                                 <!--loop nas funçoes-->
                                 <td class="privilegio-actions" >
@@ -257,9 +257,7 @@
                         <i class="fas fa-redo"></i>
                         </p>
                     </button>
-                    <button class=" u-full-width " @click="salvarLocalStorage()"> 
-                        Salvar Dados
-                    </button>
+                    
 
                 </div>
             <!--Footer-->

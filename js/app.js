@@ -161,6 +161,7 @@ new Vue({
                 this.listaIrmaos[this.listaIrmaos.length-1].funcoes[x.name]=true;
             });
             this.inputIrmao=null;
+            this.salvarLocalStorage();
         },
         addPrivilegio: function(privilegio) {
             const localPrivilegio = privilegio.charAt(0).toUpperCase() + privilegio.slice(1).toLowerCase();
@@ -168,9 +169,10 @@ new Vue({
             name:localPrivilegio,
             qtd: 1,
             irmaos: []
-        }
+            }
             this.listaFuncoes.push(obj);
             this.inputPrivilegio=null;
+            this.salvarLocalStorage();
         },
         log: function (e) {
             console.log(e);
@@ -194,6 +196,7 @@ new Vue({
             // local.funcoes[funcaoIndex] = !local.funcoes[funcaoIndex];
             // this.listaIrmaos.splice(irmaoIndex,1,  local);
             // console.log(this.listaIrmaos[irmaoIndex].funcoes[funcaoIndex] );
+            this.salvarLocalStorage();
 
         },
         newPikaday: function(){
@@ -252,6 +255,7 @@ new Vue({
             })
             console.log("this.listaFuncoes");
             console.log(this.listaFuncoes);
+            this.salvarLocalStorage();
         },
         gerarTabelaFinal: function()
         {
@@ -454,6 +458,7 @@ new Vue({
             else{
                 this.diasSemana[index].ativo = !this.diasSemana[index].ativo;
             } 
+            this.salvarLocalStorage();
         },
         validarGerar: function()
         {
@@ -473,10 +478,16 @@ new Vue({
 
         },
         privilegioQtdPlus: function(index) {
-            this.listaFuncoes[index].qtd++
+            this.listaFuncoes[index].qtd++;
+            this.salvarLocalStorage();
         },
         privilegioQtdMinus: function(index) {
             if (this.listaFuncoes[index].qtd > 1) this.listaFuncoes[index].qtd--;
+            this.salvarLocalStorage();
+        },
+        deletePrivilegio: function(index) {
+            this.listaFuncoes.splice(index,1);
+            this.salvarLocalStorage();
         },
         downloadPDF: function() {
             const { jsPDF } = window.jspdf;
@@ -552,7 +563,7 @@ new Vue({
                 this.diasSemana = diasSemana;
                 this.showCreation = showCreation;
                 this.listaIrmaos = listaIrmaos;
-                this.listaFuncoe = listaFuncoe;
+                this.listaFuncoes = listaFuncoes;
             }
         }
 
