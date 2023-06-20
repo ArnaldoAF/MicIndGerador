@@ -125,6 +125,8 @@ new Vue({
         inputPrivilegio: null,
         carregardatePicker:true,
         printSize: false,
+        showCreation: false,
+        dataGeracao: "",
         tabelaFinal:[]
     },
     mounted: function() {
@@ -252,6 +254,14 @@ new Vue({
         gerarTabelaFinal: function()
         {
             this.tabelaFinal = [];
+            if (this.showCreation) {
+                this.dataGeracao = moment(Date.now()).format('DD/MMM/YYYY');
+                console.log("this.showCreation");
+                console.log(this.showCreation);
+                console.log(this.dataGeracao);
+            }
+
+
             console.warn("gerar tabela final");
             const tempDateString = `1/${this.selectedMes}/${this.selectedAno}`;
             //Dia Padrão

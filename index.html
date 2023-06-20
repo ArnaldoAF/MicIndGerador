@@ -94,8 +94,8 @@
                 </div>
 
                 <hr>
-                <div class="privilegio-table">
-                        
+                <div class="row">
+                    <div class="six columns">
                         <table class="u-full-width">
                             <caption>
                                 <h4>Lista de Privilégios</h4>
@@ -134,6 +134,20 @@
                                 <td></td>
                             </tr>
                         </table>
+                      </div>
+                      <div class="six columns">
+                        <h4>Opções</h4>
+                        <h6>Opções de customização</h6>
+
+                        <label class="example-send-yourself-copy">
+                            <input type="checkbox" v-model="showCreation">
+                            <span class="label-body">Mostrar data de criação na tabela</span>
+                          </label>
+                      </div>
+                </div>
+                <div class="privilegio-table">
+                        
+                        
                 </div>
 
                 <hr>
@@ -219,6 +233,8 @@
                         </tr>
                     </table>
                     <p><strong>"Mas que todas as coisas ocorram com decência e ordem"</strong> - 1 Coríntios 14:40</p>
+                    <br>
+                    <p v-if="showCreation"><strong>Gerado em: </strong> {{dataGeracao}}</p>
                 </div>
                 <button class=" u-full-width " @click="downloadPDF()"> 
                     Gerar pdf
