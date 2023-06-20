@@ -521,6 +521,17 @@ new Vue({
             //     // 'a4': [595.28, 841.89],
             // });
             
+        },
+        gerarObjetoSalvar: function() {
+            const objetoSalvar = {
+                diasSemana: this.diasSemana
+            }
+
+            return objetoSalvar;
+        },
+        salvarLocalStorage: function() {
+            const jsonObj = JSON.stringify(this.gerarObjetoSalvar());
+            localStorage.setItem('micIndData', jsonObj);
         }
 
 
