@@ -526,7 +526,7 @@ new Vue({
             const objetoSalvar = {
                 diasSemana: this.diasSemana,
                 showCreation: this.showCreation,
-                
+                listaIrmaos: this.listaIrmaos,
             }
 
             return objetoSalvar;
