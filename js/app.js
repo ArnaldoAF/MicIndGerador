@@ -137,6 +137,8 @@ new Vue({
         this.anosLista=[year, year+1];
         this.selectedAno = year;
         this.selectedMes = month;
+
+        this.recuperarLocalStorage();
         
         
 
@@ -527,6 +529,7 @@ new Vue({
                 diasSemana: this.diasSemana,
                 showCreation: this.showCreation,
                 listaIrmaos: this.listaIrmaos,
+                listaFuncoes: this.listaFuncoes
             }
 
             return objetoSalvar;
@@ -534,6 +537,23 @@ new Vue({
         salvarLocalStorage: function() {
             const jsonObj = JSON.stringify(this.gerarObjetoSalvar());
             localStorage.setItem('micIndData', jsonObj);
+        },
+        recuperarLocalStorage: function() {
+            const jsonObj = localStorage.getItem('micIndData');
+            const jsonObjConverted = jsonObj ? JSON.parse(localStorage.getItem('micIndData')) : null;
+
+            if(jsonObjConverted) {
+                const {
+                    diasSemana,
+                    showCreation,
+                    listaIrmaos,
+                    listaFuncoes
+                } = jsonObjConverted;
+                this.diasSemana = diasSemana;
+                this.showCreation = showCreation;
+                this.listaIrmaos = listaIrmaos;
+                this.listaFuncoe = listaFuncoe;
+            }
         }
 
 
