@@ -125,6 +125,8 @@ new Vue({
         inputPrivilegio: null,
         carregardatePicker:true,
         printSize: false,
+        showCreation: false,
+        dataGeracao: "",
         tabelaFinal:[]
     },
     mounted: function() {
@@ -135,6 +137,8 @@ new Vue({
         this.anosLista=[year, year+1];
         this.selectedAno = year;
         this.selectedMes = month;
+
+        this.recuperarLocalStorage();
         
         
 
@@ -157,6 +161,7 @@ new Vue({
                 this.listaIrmaos[this.listaIrmaos.length-1].funcoes[x.name]=true;
             });
             this.inputIrmao=null;
+            this.salvarLocalStorage();
         },
         addPrivilegio: function(privilegio) {
             const localPrivilegio = privilegio.charAt(0).toUpperCase() + privilegio.slice(1).toLowerCase();
@@ -164,9 +169,10 @@ new Vue({
             name:localPrivilegio,
             qtd: 1,
             irmaos: []
-        }
+            }
             this.listaFuncoes.push(obj);
             this.inputPrivilegio=null;
+            this.salvarLocalStorage();
         },
         log: function (e) {
             console.log(e);
@@ -190,6 +196,7 @@ new Vue({
             // local.funcoes[funcaoIndex] = !local.funcoes[funcaoIndex];
             // this.listaIrmaos.splice(irmaoIndex,1,  local);
             // console.log(this.listaIrmaos[irmaoIndex].funcoes[funcaoIndex] );
+            this.salvarLocalStorage();
 
         },
         newPikaday: function(){
@@ -248,10 +255,19 @@ new Vue({
             })
             console.log("this.listaFuncoes");
             console.log(this.listaFuncoes);
+            this.salvarLocalStorage();
         },
         gerarTabelaFinal: function()
         {
             this.tabelaFinal = [];
+            if (this.showCreation) {
+                this.dataGeracao = moment(Date.now()).format('DD/MMM/YYYY');
+                console.log("this.showCreation");
+                console.log(this.showCreation);
+                console.log(this.dataGeracao);
+            }
+
+
             console.warn("gerar tabela final");
             const tempDateString = `1/${this.selectedMes}/${this.selectedAno}`;
             //Dia Padrão
@@ -442,6 +458,7 @@ new Vue({
             else{
                 this.diasSemana[index].ativo = !this.diasSemana[index].ativo;
             } 
+            this.salvarLocalStorage();
         },
         validarGerar: function()
         {
@@ -461,10 +478,16 @@ new Vue({
 
         },
         privilegioQtdPlus: function(index) {
-            this.listaFuncoes[index].qtd++
+            this.listaFuncoes[index].qtd++;
+            this.salvarLocalStorage();
         },
         privilegioQtdMinus: function(index) {
             if (this.listaFuncoes[index].qtd > 1) this.listaFuncoes[index].qtd--;
+            this.salvarLocalStorage();
+        },
+        deletePrivilegio: function(index) {
+            this.listaFuncoes.splice(index,1);
+            this.salvarLocalStorage();
         },
         downloadPDF: function() {
             const { jsPDF } = window.jspdf;
@@ -511,7 +534,75 @@ new Vue({
             //     // 'a4': [595.28, 841.89],
             // });
             
+        },
+        gerarObjetoSalvar: function() {
+            const objetoSalvar = {
+                diasSemana: this.diasSemana,
+                showCreation: this.showCreation,
+                listaIrmaos: this.listaIrmaos,
+                listaFuncoes: this.listaFuncoes
+            }
+
+            return objetoSalvar;
+        },
+        salvarLocalStorage: function() {
+            const jsonObj = JSON.stringify(this.gerarObjetoSalvar());
+            localStorage.setItem('micIndData', jsonObj);
+        },
+        recuperarLocalStorage: function() {
+            const jsonObj = localStorage.getItem('micIndData');
+            const jsonObjConverted = jsonObj ? JSON.parse(localStorage.getItem('micIndData')) : null;
+
+            if(jsonObjConverted) {
+                const {
+                    diasSemana,
+                    showCreation,
+                    listaIrmaos,
+                    listaFuncoes
+                } = jsonObjConverted;
+                this.diasSemana = diasSemana;
+                this.showCreation = showCreation;
+                this.listaIrmaos = listaIrmaos;
+                this.listaFuncoes = listaFuncoes;
+            }
+        },
+        downloadJson: function(){
+            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.gerarObjetoSalvar(), undefined, 4));
+            var downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href",     dataStr);
+            downloadAnchorNode.setAttribute("download", "QuadroDesignacoes.json");
+            document.body.appendChild(downloadAnchorNode); // required for firefox
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        },
+        previewFiles(event) {
+            console.log(event.target.files);
+            const file = event.target;
+            let reader = new FileReader();
+
+            reader.onload = this.recuperarJson;
+            // Read the file
+            reader.readAsText(file.files[0]);
+         },
+        recuperarJson: function(event){
+            let str = event.target.result;
+            let jsonObjConverted = JSON.parse(str);
+            console.log('string', str);
+            console.log('json', jsonObjConverted);
+            const {
+                diasSemana,
+                showCreation,
+                listaIrmaos,
+                listaFuncoes
+            } = jsonObjConverted;
+            this.diasSemana = diasSemana;
+            this.showCreation = showCreation;
+            this.listaIrmaos = listaIrmaos;
+            this.listaFuncoes = listaFuncoes;
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
+        
 
 
     },

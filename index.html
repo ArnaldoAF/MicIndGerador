@@ -94,8 +94,8 @@
                 </div>
 
                 <hr>
-                <div class="privilegio-table">
-                        
+                <div class="row">
+                    <div class="six columns">
                         <table class="u-full-width">
                             <caption>
                                 <h4>Lista de Privilégios</h4>
@@ -113,7 +113,7 @@
     
                                 <td >
                                     {{funcao.name}}
-                                    <i class="fas fa-trash-alt u-pull-right" @click="listaFuncoes.splice(index,1)"></i>
+                                    <i class="fas fa-trash-alt u-pull-right" @click="deletePrivilegio(index)"></i>
                                 </td>
                                 <!--loop nas funçoes-->
                                 <td class="privilegio-actions" >
@@ -134,6 +134,20 @@
                                 <td></td>
                             </tr>
                         </table>
+                      </div>
+                      <div class="six columns">
+                        <h4>Opções</h4>
+                        <h6>Opções de customização</h6>
+
+                        <label class="example-send-yourself-copy">
+                            <input type="checkbox" v-model="showCreation">
+                            <span class="label-body">Mostrar data de criação na tabela</span>
+                          </label>
+                      </div>
+                </div>
+                <div class="privilegio-table">
+                        
+                        
                 </div>
 
                 <hr>
@@ -219,15 +233,17 @@
                         </tr>
                     </table>
                     <p><strong>"Mas que todas as coisas ocorram com decência e ordem"</strong> - 1 Coríntios 14:40</p>
+                    <br>
+                    <p v-if="showCreation"><strong>Gerado em: </strong> {{dataGeracao}}</p>
                 </div>
                 <button class=" u-full-width " @click="downloadPDF()"> 
                     Gerar pdf
-                    <i class="fas fa-cogs"></i>
+                    <i class="fas fa-download"></i>
                     
                 </button>
                     
             </div>
-            <hr>
+            <hr />
                 <!--Botão de Gerar pdf-->
                 <div class="row">
                     
@@ -241,8 +257,34 @@
                         <i class="fas fa-redo"></i>
                         </p>
                     </button>
+                    
 
                 </div>
+            <hr>
+            <div>
+                <h4>Salvar e restaurar</h4>
+                <h6>As informações dessa ferramente(irmãos, privilégios, dias da semana, etc...) são salvas automáticamente no browser</h6>
+                <h6>Nessa seção você pode salvar essas informações para utilizar em outro browser</h6>
+
+                <div class="row">
+                    <div class="six columns">
+                        <button class=" u-full-width " @click="downloadJson()"> 
+                            Exportar configurações
+                            <i class="fas fa-download"></i>
+                            </p>
+                        </button>
+                    </div>
+                    <div class="six columns">
+                        
+                        <label class="button u-full-width" for="myfile" id="myfileLabel">
+                                Importar configurações
+                                <i class="fas fa-upload"></i>
+                        </label>
+                        <input type="file" id="myfile" name="myfile" @change="previewFiles" multiple>
+                    </div>
+                </div>
+
+            </div>
             <!--Footer-->
             <hr>
             <div class="row ">
