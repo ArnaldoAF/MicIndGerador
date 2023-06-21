@@ -275,7 +275,12 @@
                         </button>
                     </div>
                     <div class="six columns">
-                        <input type="file" @change="previewFiles" multiple>
+                        
+                        <label class="button u-full-width" for="myfile" id="myfileLabel">
+                                Importar configurações
+                                <i class="fas fa-upload"></i>
+                        </label>
+                        <input type="file" id="myfile" name="myfile" @change="previewFiles" multiple>
                     </div>
                 </div>
 
