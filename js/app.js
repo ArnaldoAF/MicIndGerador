@@ -574,7 +574,35 @@ new Vue({
             document.body.appendChild(downloadAnchorNode); // required for firefox
             downloadAnchorNode.click();
             downloadAnchorNode.remove();
-          }
+        },
+        previewFiles(event) {
+            console.log(event.target.files);
+            const file = event.target;
+            let reader = new FileReader();
+
+            reader.onload = this.recuperarJson;
+            // Read the file
+            reader.readAsText(file.files[0]);
+         },
+        recuperarJson: function(event){
+            let str = event.target.result;
+            let jsonObjConverted = JSON.parse(str);
+            console.log('string', str);
+            console.log('json', jsonObjConverted);
+            const {
+                diasSemana,
+                showCreation,
+                listaIrmaos,
+                listaFuncoes
+            } = jsonObjConverted;
+            this.diasSemana = diasSemana;
+            this.showCreation = showCreation;
+            this.listaIrmaos = listaIrmaos;
+            this.listaFuncoes = listaFuncoes;
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
 
 
     },
