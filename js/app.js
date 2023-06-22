@@ -127,6 +127,7 @@ new Vue({
         printSize: false,
         showCreation: false,
         dataGeracao: "",
+        editObj: [],
         tabelaFinal:[]
     },
     mounted: function() {
@@ -601,8 +602,17 @@ new Vue({
             this.listaFuncoes = listaFuncoes;
             
             window.scrollTo({top: 0, behavior: 'smooth'});
+        },
+        clickTest: function(indexTable, indexFuncao) {
+            console.log(indexFuncao);
+            console.log(indexTable);
+
+            this.editObj = [indexTable, indexFuncao];
+        },
+        cleanEditObj: function() {
+
+            this.editObj = [];
         }
-        
 
 
     },

@@ -219,14 +219,38 @@
                         </tr>
 
                         <!--Irmãos-->
-                        <tr v-for="(dia,index) in tabelaFinal">
+                        <tr v-for="(dia,indexTabela) in tabelaFinal">
 
-                            <th>{{dia.DiaM}}</th>
-                            <th>{{dia.DiaS}}</th>
+                            <th @click="(clickTest(indexTabela, -2))">
+                                {{dia.DiaM}}
+                                <span v-if="editObj[0] == indexTabela && editObj[1] == -2">
+                                        <i class="fas fa-cogs"></i>
+                                </span>
+                            </th>
+                            <th @click="(clickTest(indexTabela, -1))">
+                                {{dia.DiaS}}
+                                <span v-if="editObj[0] == indexTabela && editObj[1] == -1">
+                                        <i class="fas fa-cogs"></i>
+                                </span>
+                            </th>
                             <!--loop nas funçoes-->
-                            <div >
-                                <td v-for="(funcao,nome) in dia.funcoes">
+                            <div>
+                                <td v-for="(funcao,indexFuncao) in dia.funcoes" @click="(clickTest(indexTabela, indexFuncao))">
+                                    
+                                    <select 
+                                        v-if="editObj[0] == indexTabela && editObj[1] == indexFuncao"  
+                                        class="u-full-width" 
+                                        id="exampleRecipientInput" 
+                                        v-model="tabelaFinal[indexTabela].funcoes[indexFuncao]"
+                                        @blur="cleanEditObj()"
+                                        @keyup.escape="cleanEditObj()">
+                                        <option value="----">----</option>
+                                        <option v-for="irmao, i in listaIrmaos" :value="irmao.nome">{{irmao.nome}}</option>
+                                      </select>
+                                    <span v-else>
                                         {{funcao}}
+                                    </span>
+
                                 </td>
                             </div>
                             <td></td>
