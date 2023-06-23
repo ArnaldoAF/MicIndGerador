@@ -282,9 +282,16 @@
                     <br>
                     <p v-if="showCreation"><strong>Gerado em: </strong> {{dataGeracao}}</p>
                 </div>
-                <button class=" u-full-width " @click="downloadPDF()"> 
-                    Gerar pdf
-                    <i class="fas fa-download"></i>
+                <button class=" u-full-width " @click="downloadPDF()" :disabled="loadingPDF"> 
+                    <span v-if="loadingPDF">
+                        Gerando
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </span>
+                    <span v-else>
+                        Gerar pdf
+                        <i class="fas fa-download"></i>
+                    </span>
+                    
                     
                 </button>
                     
