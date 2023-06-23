@@ -110,15 +110,21 @@ new Vue({
                 irmaos: []
             },
             {
+                name:'Leitor',
+                qtd: 1,
+                irmaos: []
+            },
+            {
                 name:'Som',
                 qtd: 1,
                 irmaos: []
             },
             {
-                name:'Leitor',
+                name:'Mídia',
                 qtd: 1,
                 irmaos: []
-            }
+            },
+            
         ],
         listaFuncoesTabelaFinal: [],
         inputIrmao:null,
@@ -128,6 +134,7 @@ new Vue({
         showCreation: false,
         dataGeracao: "",
         editObj: [],
+        loadingPDF: false,
         tabelaFinal:[]
     },
     mounted: function() {
@@ -366,7 +373,7 @@ new Vue({
                             console.log("ERRO")
                         }
                         i++;
-                        debugger;
+                        // debugger;
 
                     } while(validRandomNumber == false);
                     thisDay.funcoes.push(randomIrmao);
@@ -419,7 +426,7 @@ new Vue({
                 */
 
                 this.tabelaFinal.push(thisDay);
-                debugger;
+                // debugger;
                 index++;
                 
             }
@@ -492,25 +499,34 @@ new Vue({
             this.listaFuncoes.splice(index,1);
             this.salvarLocalStorage();
         },
-        downloadPDF: function() {
+        downloadPDF: async function() {
+            this.loadingPDF = true;
+            this.cleanEditObj();
+            debugger;
+
             const { jsPDF } = window.jspdf;
 
             const tabelaFinal = document.querySelector("#tabela-final");
+            await new Promise(r => setTimeout(r, 500));
 
             const doc = new jsPDF();
             this.printSize = true;
 
-            doc.html(tabelaFinal, {
-                callback: function (doc) {
+            await doc.html(tabelaFinal, {
+                callback: async function (doc) {
+                    debugger;
+
                     this.printSize = true;
-                    doc.save(`Quadro.pdf`);
+                    await doc.save(`Quadro.pdf`);
                 },
                 x: 15,
                 y: 15,
                 width: 180, //target width in the PDF document
-                windowWidth: 800 //window width in CSS pixels
+                windowWidth: 900 //window width in CSS pixels
              });
              this.printSize = false;
+            this.loadingPDF = false;
+             
 
 
             //  html2canvas(tabelaFinal, {

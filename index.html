@@ -204,6 +204,13 @@
                 
             </div>
             <div v-else >
+                <div>
+                    <h1>Tabela gerada!</h1>
+                    <h6>Para editar algum campo, clique nele</h6>
+                    <h6>Se em alguma semana um irmão desempenhar 2 ou mais funções, a linha irá ficar <span class="line-with-duplicate">vermelha</span> </h6>
+                    <h6>No final da tela, irá encontrar o botão para baixar em PDF</h6>
+                    <h6>Se aparecer a palavra <span class="line-with-duplicate">ERRO</span> é porque aquela função não tem irmãos suficiente, se isso acontecer, revise a atribuição de privilégios, ou edite manualmente</h6>
+                </div>
                 <div id="tabela-final">
                     <table class="u-full-width" >
                         <caption>
@@ -221,7 +228,7 @@
                         <!--Irmãos-->
                         <tr 
                             v-for="(dia,indexTabela) in tabelaFinal"
-                            :class = " [hasDuplicates(dia.funcoes) ? 'line-with-duplicate' : '']" >
+                            :class = " [hasDuplicates(dia.funcoes) || dia.funcoes.includes('ERRO') ? 'line-with-duplicate' : '']" >
 
                             <th @click="(clickTest(indexTabela, -2))">
                                 <input 
@@ -276,9 +283,16 @@
                     <br>
                     <p v-if="showCreation"><strong>Gerado em: </strong> {{dataGeracao}}</p>
                 </div>
-                <button class=" u-full-width " @click="downloadPDF()"> 
-                    Gerar pdf
-                    <i class="fas fa-download"></i>
+                <button class=" u-full-width " @click="downloadPDF()" :disabled="loadingPDF"> 
+                    <span v-if="loadingPDF">
+                        Gerando
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </span>
+                    <span v-else>
+                        Gerar pdf
+                        <i class="fas fa-download"></i>
+                    </span>
+                    
                     
                 </button>
                     
@@ -335,7 +349,7 @@
                 - <a target="_blank" href="https://github.com/ArnaldoAF/MicIndGerador"
                     class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">Github</a>
                 <br />
-                <span><strong>Útima atualização:</strong> 22/06/2023</span>
+                <span><strong>Útima atualização:</strong> 23/06/2023</span>
                 <br> Tools:
                 <br>
                 <ul>
