@@ -224,15 +224,28 @@
                             :class = " [hasDuplicates(dia.funcoes) ? 'line-with-duplicate' : '']" >
 
                             <th @click="(clickTest(indexTabela, -2))">
-                                {{dia.DiaM}}
-                                <span v-if="editObj[0] == indexTabela && editObj[1] == -2">
-                                        <i class="fas fa-cogs"></i>
+                                <input 
+                                    v-if="editObj[0] == indexTabela && editObj[1] == -2"
+                                    type="text" 
+                                    v-model="tabelaFinal[indexTabela].DiaM" 
+                                    @keyup.enter="cleanEditObj()" >
+                                <span v-else @click="(clickTest(indexTabela, -1))">
+                                    {{dia.DiaM}}
                                 </span>
                             </th>
                             <th @click="(clickTest(indexTabela, -1))">
-                                {{dia.DiaS}}
-                                <span v-if="editObj[0] == indexTabela && editObj[1] == -1">
-                                        <i class="fas fa-cogs"></i>
+                                
+                                <select 
+                                        v-if="editObj[0] == indexTabela && editObj[1] == -1"  
+                                        class="u-full-width" 
+                                        v-model="tabelaFinal[indexTabela].DiaS"
+                                        @blur="cleanEditObj()"
+                                        @change="cleanEditObj()"
+                                        @keyup.escape="cleanEditObj()">
+                                        <option v-for="diaDaSemana, i in diasSemana" :value="diaDaSemana.day">{{diaDaSemana.day}}</option>
+                                </select>
+                                <span v-else @click="(clickTest(indexTabela, -1))">
+                                    {{dia.DiaS}}
                                 </span>
                             </th>
                             <!--loop nas funçoes-->
@@ -249,7 +262,7 @@
                                         @keyup.escape="cleanEditObj()">
                                         <option value="----">----</option>
                                         <option v-for="irmao, i in listaIrmaos" :value="irmao.nome">{{irmao.nome}}</option>
-                                      </select>
+                                    </select>
                                     <span v-else @click="(clickTest(indexTabela, indexFuncao))">
                                         {{funcao}}
                                     </span>

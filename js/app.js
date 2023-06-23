@@ -12,7 +12,7 @@ new Vue({
                          {
                             index: 1,
                             day: 'Ter',
-                             ativo:false
+                            ativo:false
                             },
                          {
                             index: 2,
@@ -31,7 +31,7 @@ new Vue({
                             },
                          {
                             index: 5,
-                             day:'Sab',
+                             day:'Sáb',
                              ativo:true
                             },
                          {
@@ -330,7 +330,8 @@ new Vue({
                 
                 
                 thisDay.DiaM = moment(thisDay.Dia).format('DD/MMM');
-                thisDay.DiaS = moment(thisDay.Dia).format('ddd');
+                // replace pra tirar o acento do Sábado
+                thisDay.DiaS = moment(thisDay.Dia).format('ddd').replace("á","a");
                 console.log(thisDay.DiaM);
                 console.log(thisDay.Dia.month());
                 
