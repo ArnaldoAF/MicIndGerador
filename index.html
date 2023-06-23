@@ -219,14 +219,54 @@
                         </tr>
 
                         <!--Irmãos-->
-                        <tr v-for="(dia,index) in tabelaFinal">
+                        <tr 
+                            v-for="(dia,indexTabela) in tabelaFinal"
+                            :class = " [hasDuplicates(dia.funcoes) ? 'line-with-duplicate' : '']" >
 
-                            <th>{{dia.DiaM}}</th>
-                            <th>{{dia.DiaS}}</th>
+                            <th @click="(clickTest(indexTabela, -2))">
+                                <input 
+                                    v-if="editObj[0] == indexTabela && editObj[1] == -2"
+                                    type="text" 
+                                    v-model="tabelaFinal[indexTabela].DiaM" 
+                                    @keyup.enter="cleanEditObj()" >
+                                <span v-else @click="(clickTest(indexTabela, -1))">
+                                    {{dia.DiaM}}
+                                </span>
+                            </th>
+                            <th @click="(clickTest(indexTabela, -1))">
+                                
+                                <select 
+                                        v-if="editObj[0] == indexTabela && editObj[1] == -1"  
+                                        class="u-full-width" 
+                                        v-model="tabelaFinal[indexTabela].DiaS"
+                                        @blur="cleanEditObj()"
+                                        @change="cleanEditObj()"
+                                        @keyup.escape="cleanEditObj()">
+                                        <option v-for="diaDaSemana, i in diasSemana" :value="diaDaSemana.day">{{diaDaSemana.day}}</option>
+                                </select>
+                                <span v-else @click="(clickTest(indexTabela, -1))">
+                                    {{dia.DiaS}}
+                                </span>
+                            </th>
                             <!--loop nas funçoes-->
-                            <div >
-                                <td v-for="(funcao,nome) in dia.funcoes">
+                            <div>
+                                <td v-for="(funcao,indexFuncao) in dia.funcoes" >
+                                    
+                                    <select 
+                                        v-if="editObj[0] == indexTabela && editObj[1] == indexFuncao"  
+                                        class="u-full-width" 
+                                        id="exampleRecipientInput" 
+                                        v-model="tabelaFinal[indexTabela].funcoes[indexFuncao]"
+                                        @blur="cleanEditObj()"
+                                        @change="cleanEditObj()"
+                                        @keyup.escape="cleanEditObj()">
+                                        <option value="----">----</option>
+                                        <option v-for="irmao, i in listaIrmaos" :value="irmao.nome">{{irmao.nome}}</option>
+                                    </select>
+                                    <span v-else @click="(clickTest(indexTabela, indexFuncao))">
                                         {{funcao}}
+                                    </span>
+
                                 </td>
                             </div>
                             <td></td>
@@ -295,7 +335,7 @@
                 - <a target="_blank" href="https://github.com/ArnaldoAF/MicIndGerador"
                     class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline">Github</a>
                 <br />
-                <span><strong>Útima atualização:</strong> 20/06/2023</span>
+                <span><strong>Útima atualização:</strong> 22/06/2023</span>
                 <br> Tools:
                 <br>
                 <ul>

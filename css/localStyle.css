@@ -40,3 +40,7 @@
 #myfile {
     display: none;
 }
+
+.line-with-duplicate {
+    background: #fca5a5;
+}
