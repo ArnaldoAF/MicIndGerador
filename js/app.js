@@ -306,6 +306,7 @@ new Vue({
             let index = 0;
             while (thisDay.Dia.month() + 1 == this.selectedMes)
             {
+                this.cleanEditObj();
                 console.log("---------------------------");
                 console.log("Loop sorteio i-"+index);
                 
@@ -606,12 +607,23 @@ new Vue({
         clickTest: function(indexTable, indexFuncao) {
             console.log(indexFuncao);
             console.log(indexTable);
+            const [actualIndexTable, actualindexFuncao] = this.editObj;
 
-            this.editObj = [indexTable, indexFuncao];
+            // if (actualIndexTable == indexTable && actualindexFuncao == indexFuncao)
+            //     this.cleanEditObj();
+            // else 
+            //     this.editObj = [indexTable, indexFuncao];
+
+
+                this.editObj = [indexTable, indexFuncao];
         },
         cleanEditObj: function() {
+            console.log("cleanEditObj");
 
             this.editObj = [];
+        },
+        hasDuplicates: function(array) {
+            return (new Set(array)).size !== array.length;
         }
 
 

@@ -219,7 +219,9 @@
                         </tr>
 
                         <!--Irmãos-->
-                        <tr v-for="(dia,indexTabela) in tabelaFinal">
+                        <tr 
+                            v-for="(dia,indexTabela) in tabelaFinal"
+                            :class = " [hasDuplicates(dia.funcoes) ? 'line-with-duplicate' : '']" >
 
                             <th @click="(clickTest(indexTabela, -2))">
                                 {{dia.DiaM}}
@@ -235,7 +237,7 @@
                             </th>
                             <!--loop nas funçoes-->
                             <div>
-                                <td v-for="(funcao,indexFuncao) in dia.funcoes" @click="(clickTest(indexTabela, indexFuncao))">
+                                <td v-for="(funcao,indexFuncao) in dia.funcoes" >
                                     
                                     <select 
                                         v-if="editObj[0] == indexTabela && editObj[1] == indexFuncao"  
@@ -243,11 +245,12 @@
                                         id="exampleRecipientInput" 
                                         v-model="tabelaFinal[indexTabela].funcoes[indexFuncao]"
                                         @blur="cleanEditObj()"
+                                        @change="cleanEditObj()"
                                         @keyup.escape="cleanEditObj()">
                                         <option value="----">----</option>
                                         <option v-for="irmao, i in listaIrmaos" :value="irmao.nome">{{irmao.nome}}</option>
                                       </select>
-                                    <span v-else>
+                                    <span v-else @click="(clickTest(indexTabela, indexFuncao))">
                                         {{funcao}}
                                     </span>
 
