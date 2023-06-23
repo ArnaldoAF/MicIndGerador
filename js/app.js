@@ -110,15 +110,21 @@ new Vue({
                 irmaos: []
             },
             {
+                name:'Leitor',
+                qtd: 1,
+                irmaos: []
+            },
+            {
                 name:'Som',
                 qtd: 1,
                 irmaos: []
             },
             {
-                name:'Leitor',
+                name:'Mídia',
                 qtd: 1,
                 irmaos: []
-            }
+            },
+            
         ],
         listaFuncoesTabelaFinal: [],
         inputIrmao:null,
