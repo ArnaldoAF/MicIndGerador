@@ -228,7 +228,10 @@
                         <!--Irmãos-->
                         <tr 
                             v-for="(dia,indexTabela) in tabelaFinal"
-                            :class = " [hasDuplicates(dia.funcoes) || dia.funcoes.includes('ERRO') ? 'line-with-duplicate' : '']" >
+                            :class = "{ 
+                                'line-with-duplicate': (hasDuplicates(dia.funcoes) || dia.funcoes.includes('ERRO')),
+                                'line-with-event': hasEvents(dia.funcoes)
+                                }" >
 
                             <th @click="(clickTest(indexTabela, -2))">
                                 <input 
