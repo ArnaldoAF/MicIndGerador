@@ -264,11 +264,10 @@
                                         class="u-full-width" 
                                         id="exampleRecipientInput" 
                                         v-model="tabelaFinal[indexTabela].funcoes[indexFuncao]"
-                                        @blur="cleanEditObj()"
-                                        @change="cleanEditObj()"
-                                        @keyup.escape="cleanEditObj()">
-                                        <option value="----">----</option>
-                                        <option v-for="irmao, i in listaIrmaos" :value="irmao.nome">{{irmao.nome}}</option>
+                                        @blur="changeComboBoxIrmao(indexTabela)"
+                                        @change="changeComboBoxIrmao(indexTabela)"
+                                        @keyup.escape="changeComboBoxIrmao(indexTabela)">
+                                        <option v-for="irmao, i in comboBoxListaIrmaos" :value="irmao">{{irmao}}</option>
                                     </select>
                                     <span v-else @click="(clickTest(indexTabela, indexFuncao))">
                                         {{funcao}}
