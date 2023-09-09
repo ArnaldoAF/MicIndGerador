@@ -264,9 +264,9 @@
                                         class="u-full-width" 
                                         id="exampleRecipientInput" 
                                         v-model="tabelaFinal[indexTabela].funcoes[indexFuncao]"
-                                        @blur="changeComboBoxIrmao(indexTabela)"
-                                        @change="changeComboBoxIrmao(indexTabela)"
-                                        @keyup.escape="changeComboBoxIrmao(indexTabela)">
+                                        @blur="changeComboBoxIrmao(indexTabela, indexFuncao)"
+                                        @change="changeComboBoxIrmao(indexTabela, indexFuncao)"
+                                        @keyup.escape="changeComboBoxIrmao(indexTabela, indexFuncao)">
                                         <option v-for="irmao, i in comboBoxListaIrmaos" :value="irmao">{{irmao}}</option>
                                     </select>
                                     <span v-else @click="(clickTest(indexTabela, indexFuncao))">

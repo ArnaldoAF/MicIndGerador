@@ -644,13 +644,15 @@ new Vue({
 
             this.editObj = [];
         },
-        changeComboBoxIrmao: function(indexDaTabela) {
+        changeComboBoxIrmao: function(indexDaTabela, indexFuncao) {
             console.log("changeComboBoxIrmao");
             const diaLinha = this.tabelaFinal[indexDaTabela];
             const linhaEventoIndex = diaLinha.funcoes.findIndex(irmao => this.eventos.includes(irmao));
-            if (linhaEventoIndex != -1) {
-                console.log(linhaEventoIndex);
-                const evento = diaLinha.funcoes[linhaEventoIndex];
+
+            const linhaEventoIndex2 = this.eventos.includes(diaLinha.funcoes[indexFuncao]);
+            if (linhaEventoIndex2) {
+                console.log(linhaEventoIndex2);
+                const evento = diaLinha.funcoes[indexFuncao];
                 this.tabelaFinal[indexDaTabela].funcoes.forEach((irmao, index, originalArray) => {
                     console.log(irmao);
                     originalArray[index] = (index == 0 ) ? evento : '----';
