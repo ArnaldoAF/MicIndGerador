@@ -126,6 +126,11 @@ new Vue({
             },
             
         ],
+        eventos:[
+                'CONGRESSO',
+                'ASSEMBLEIA',
+                'SEM REUNIÃO'
+        ],
         listaFuncoesTabelaFinal: [],
         inputIrmao:null,
         inputPrivilegio: null,
@@ -639,11 +644,51 @@ new Vue({
 
             this.editObj = [];
         },
+        changeComboBoxIrmao: function(indexDaTabela, indexFuncao) {
+            console.log("changeComboBoxIrmao");
+            const diaLinha = this.tabelaFinal[indexDaTabela];
+            //const linhaEventoIndex = diaLinha.funcoes.findIndex(irmao => this.eventos.includes(irmao));
+
+            const linhaEventoIndex2 = this.eventos.includes(diaLinha.funcoes[indexFuncao]);
+            if (linhaEventoIndex2) {
+                console.log(linhaEventoIndex2);
+                const evento = diaLinha.funcoes[indexFuncao];
+                this.tabelaFinal[indexDaTabela].funcoes.forEach((irmao, index, originalArray) => {
+                    console.log(irmao);
+                    originalArray[index] = (index == 0 ) ? evento : '----';
+                });
+            }
+
+            this.cleanEditObj();
+
+        },
         hasDuplicates: function(array) {
-            return (new Set(array)).size !== array.length;
+            console.log(array);
+            const newArray = array.filter(x => x!='----');
+            return (new Set(newArray)).size !== newArray.length;
+        }, 
+        hasEvents: function(array) {
+            let contemEventos = false;
+            this.eventos.forEach(evento => {
+                if(array.includes(evento)) contemEventos = true;
+            })
+            return contemEventos;
         }
 
 
+    },
+    computed: {
+        comboBoxListaIrmaos() {
+            const localListaIrmaos = this.listaIrmaos.map(x => x.nome);
+
+            const listaFinal = [
+                '----',
+                ...localListaIrmaos,
+                ...this.eventos
+            ]
+
+            return listaFinal;
+        }
     },
     watch: {
         listaIrmaos: function (x){
