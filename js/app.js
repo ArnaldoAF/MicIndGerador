@@ -505,6 +505,8 @@ new Vue({
             this.salvarLocalStorage();
         },
         downloadPDF: async function() {
+            
+            
             this.loadingPDF = true;
             this.cleanEditObj();
             debugger;
@@ -512,25 +514,38 @@ new Vue({
             const { jsPDF } = window.jspdf;
 
             const tabelaFinal = document.querySelector("#tabela-final");
-            await new Promise(r => setTimeout(r, 500));
+            // await new Promise(r => setTimeout(r, 500));
 
-            const doc = new jsPDF();
-            this.printSize = true;
-
+            let doc = new jsPDF();
+            console.time("Gerando PDF");
             await doc.html(tabelaFinal, {
-                callback: async function (doc) {
+                html2canvas: {
+                    // insert html2canvas options here, e.g.
+                    scale: 0.2
+                },
+                callback: function (doc2) {
+                    console.time("callbackF");
+
                     debugger;
 
-                    this.printSize = true;
-                    await doc.save(`Quadro.pdf`);
+
+
+                    //doc2.autoPrint();
+                    //doc2.output('dataurlnewwindow');
+                    window.open(doc2.output('bloburl'), '_blank');
+                    console.timeLog("callbackF");
+
+                    //await doc2.save(`Quadro.pdf`);
                 },
-                x: 15,
-                y: 15,
-                width: 180, //target width in the PDF document
+
+                margin: [10, 10, 10, 10],
+                x: 0,
+                y: 0,
+                // width: 180, //target width in the PDF document
                 windowWidth: 900 //window width in CSS pixels
              });
-             this.printSize = false;
             this.loadingPDF = false;
+            console.timeLog("Gerando PDF");
              
 
 
