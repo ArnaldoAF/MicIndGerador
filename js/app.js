@@ -519,6 +519,10 @@ new Vue({
             let doc = new jsPDF();
             console.time("Gerando PDF");
             await doc.html(tabelaFinal, {
+                html2canvas: {
+                    // insert html2canvas options here, e.g.
+                    scale: 0.2
+                },
                 callback: function (doc2) {
                     console.time("callbackF");
 
@@ -526,16 +530,18 @@ new Vue({
 
 
 
-                    doc2.autoPrint();
+                    //doc2.autoPrint();
                     //doc2.output('dataurlnewwindow');
                     window.open(doc2.output('bloburl'), '_blank');
-                console.timeLog("callbackF");
+                    console.timeLog("callbackF");
 
                     //await doc2.save(`Quadro.pdf`);
                 },
-                x: 15,
-                y: 15,
-                width: 180, //target width in the PDF document
+
+                margin: [10, 10, 10, 10],
+                x: 0,
+                y: 0,
+                // width: 180, //target width in the PDF document
                 windowWidth: 900 //window width in CSS pixels
              });
             this.loadingPDF = false;
